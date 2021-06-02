@@ -18,8 +18,8 @@ public class Sender implements Runnable{
     }
 
     public void sendMessage() {
-        packet.getBMsq().setMessage(decrypt(packet.getBMsq().getMessage()));
-        System.out.println(packet.getBPktId()+": "+packet.getBMsq());
+//        packet.getBMsq().setMessage(decrypt(packet.getBMsq().getMessage()));
+//        System.out.println(packet.getBPktId()+": "+packet.getBMsq());
     }
 
     @Override

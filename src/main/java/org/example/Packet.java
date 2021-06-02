@@ -15,6 +15,7 @@ public class Packet {
     private final static Byte bMagic = 0x13;
     public final static Integer HEADER_LENGTH = 16;
     public final static Integer CRC16_LENGTH = 2;
+    public final static Integer MAX_SIZE = 200;
 
     private Byte bSrc;
     private UnsignedLong bPktId;
@@ -73,13 +74,9 @@ public class Packet {
         {
             throw new IllegalArgumentException("Insufficient number of bytes");
         }
-        if(bytes.length>HEADER_LENGTH+CRC16_LENGTH+wLen)
-        {
-            throw new IllegalArgumentException("Too long");
-        }
         buffer.get(messageBody);
-        bMsq.setMessage(new String(messageBody));
-        bMsq.decode();
+        bMsq.setMessage(Decryptor.decrypt(new String(messageBody)));
+        //bMsq.setMessage(Decryptor.decrypt(bMsq.getMessage()));
         System.out.println("Decoded message: "+bMsq.getMessage());
         byte[] message = Arrays.copyOfRange(bytes,HEADER_LENGTH,HEADER_LENGTH+wLen);
         wCrc16_2 = buffer.getShort();
@@ -116,6 +113,22 @@ public class Packet {
                 .put(FirstPart)
                 .putShort(wCrc16_1)
                 .put(message.packetPart())
+                .putShort(wCrc16_2)
+                .array();
+    }
+    public byte[] toBytes() {
+        byte[] FirstPart = ByteBuffer.allocate(HEADER_LENGTH - CRC16_LENGTH)
+                .order(ByteOrder.BIG_ENDIAN)
+                .put(bMagic)
+                .put(bSrc)
+                .putLong(bPktId.longValue())
+                .putInt(bMsq.getBytesLength())
+                .array();
+        return ByteBuffer.allocate(HEADER_LENGTH+bMsq.getBytesLength()+CRC16_LENGTH)
+                .order(ByteOrder.BIG_ENDIAN)
+                .put(FirstPart)
+                .putShort(wCrc16_1)
+                .put(bMsq.packetPart())
                 .putShort(wCrc16_2)
                 .array();
     }

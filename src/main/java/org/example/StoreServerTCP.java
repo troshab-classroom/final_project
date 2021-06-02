@@ -1,4 +1,5 @@
 package org.example;
+import com.google.common.primitives.UnsignedLong;
 import lombok.SneakyThrows;
 import java.io.*;
 import java.net.ServerSocket;
@@ -36,30 +37,30 @@ class EchoMultiServer {
         public void run() {
             out = clientSocket.getOutputStream();
             in = clientSocket.getInputStream() ;
-            while(in.available()>0) {
-                byte[] input = in.readAllBytes();
-                BlockingQueue<Packet> queue = new LinkedBlockingQueue<>(5);
-                Packet p = new Packet(input);
-                p.encodePackage();
-                queue.put(p);
-                Receiver r1 = new Receiver(queue);
-                new Thread(r1).start();
-                r1.connect();
-                out.write(Sender.queue.take().encodePackage());
+            System.out.println(in.available());
+            while(in.available()==0) {
+                try {
+                    byte[] b = new byte[100];
+                    in.read(b);
+                    BlockingQueue<Packet> queue = new LinkedBlockingQueue<>(5);
+                    Packet p = new Packet(b);
+                    if (p.getBSrc() == 0) {
+                        out.write(new Packet((byte) 0, UnsignedLong.fromLongBits(7L), new Message(1, 2, "bye")).encodePackage());
+                        break;
+                    }
+                    queue.put(p);
+                    Receiver r1 = new Receiver(queue);
+                    new Thread(r1).start();
+                    r1.connect();
+                    out.write(Sender.queue.take().toBytes());
+                }catch(Exception e)
+                {}
             }
-//            while ((inputLine = in.readLine()) != null) {
-//                System.out.println(inputLine);
-//                if (".".equals(inputLine)) {
-//                    out.println("bye");
-//                    break;
-//                }
-//                out.println(inputLine);
-//            }
-
             in.close();
             out.close();
             clientSocket.close();
         }
+
         public static void main(String[] args) throws IOException {
             EchoMultiServer server = new EchoMultiServer();
             server.start(5555);
