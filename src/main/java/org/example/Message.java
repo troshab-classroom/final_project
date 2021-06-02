@@ -7,9 +7,10 @@ public class Message {
     private Integer cType;
     private Integer bUserId;
     private String message;
+    public static final int BYTES_WITHOUT_MESSAGE = Integer.BYTES + Integer.BYTES;
     public Message()
     {}
-    public Message(Integer cType, Integer bUserId,String message){
+    public Message(Integer cType, Integer bUserId, String message){
         this.cType = cType;
         this.bUserId = bUserId;
         this.message = message;
@@ -20,16 +21,17 @@ public class Message {
     }
     public int getBytesLength()
     {
-        return Integer.BYTES +Integer.BYTES +  message.length();
+        return BYTES_WITHOUT_MESSAGE +  message.length();
     }
     public byte[] packetPart()
     {
         return ByteBuffer.allocate(getBytesLength()).putInt(cType).putInt(bUserId).put(message.getBytes()).array();
     }
     public  void encode()  {
-        message = myCipher.encode(message);
+        message = Encryptor.encrypt(message);
     }
     public  void decode(){
-        message = myCipher.decode(message);
+
+        message = Decryptor.decrypt(message);
     }
 }
