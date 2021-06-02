@@ -9,13 +9,16 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class ClientUDP {
+public class StoreClientUDP {
     private final DatagramSocket socket;
-    public  ClientUDP() throws SocketException{
+    private final byte clientId;
+
+    public StoreClientUDP(byte clientId) throws SocketException{
         socket = new DatagramSocket();
+        this.clientId=clientId;
     }
     public void send(String message) throws IOException {
-        Packet response = new Packet((byte) 10, UnsignedLong.fromLongBits(3L), new Message(1,1,message));
+        Packet response = new Packet(clientId, UnsignedLong.fromLongBits(3L), new Message(1,1,message));
         byte[] responseBytes = response.encodePackage();
         DatagramPacket responseDatagramPacket = new DatagramPacket(responseBytes,responseBytes.length, InetAddress.getByName(null),3000);
         socket.send(responseDatagramPacket);
@@ -25,7 +28,7 @@ public class ClientUDP {
         DatagramPacket datagramPacket = new DatagramPacket(new byte[200],200);
         socket.receive(datagramPacket);
         Packet request =new Packet(Arrays.copyOfRange(datagramPacket.getData(),0,datagramPacket.getLength()));
-        request.decode();
+
         return request;
 
 
