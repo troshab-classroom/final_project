@@ -15,6 +15,7 @@ public class Packet {
     private final static Byte bMagic = 0x13;
     public final static Integer HEADER_LENGTH = 16;
     public final static Integer CRC16_LENGTH = 2;
+    public final static Integer MAX_SIZE = Message.MAX_SIZE_FULL_MESSAGE + HEADER_LENGTH + CRC16_LENGTH*2;
 
     private Byte bSrc;
     private UnsignedLong bPktId;
@@ -38,19 +39,19 @@ public class Packet {
         }
         ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN);
         Byte expectedBMagic = buffer.get();
-      //  System.out.println("Magic, mysterious byte: " + bMagic);
+        System.out.println("Magic, mysterious byte: " + bMagic);
         //magic byte check
         if(!expectedBMagic.equals(bMagic)){
             throw new Exception("Unexpected bMagic");
         }
         bSrc = buffer.get();
-      //  System.out.println("Client: "+bSrc);
+        System.out.println("Client: "+bSrc);
         bPktId = UnsignedLong.fromLongBits(buffer.getLong());
-      //  System.out.println("Packet Id: "+bPktId);
+        System.out.println("Packet Id: "+bPktId);
         wLen = buffer.getInt();
-      //  System.out.println("Length of encoded message: "+wLen);
+        System.out.println("Length of encoded message: "+wLen);
         wCrc16_1 = buffer.getShort();
-     //  System.out.println("CRC head: "+wCrc16_1);
+        System.out.println("CRC head: "+wCrc16_1);
         byte[] FirstPart = ByteBuffer.allocate(HEADER_LENGTH - CRC16_LENGTH)
                 .order(ByteOrder.BIG_ENDIAN)
                 .put(bMagic)
@@ -64,26 +65,22 @@ public class Packet {
         }
         bMsq = new Message();
         bMsq.setCType(buffer.getInt());
-       // System.out.println("Command type: "+bMsq.getCType());
+        System.out.println("Command type: "+bMsq.getCType());
         bMsq.setBUserId(buffer.getInt());
-      //  System.out.println("User id: "+bMsq.getBUserId());
+        System.out.println("User id: "+bMsq.getBUserId());
         byte[] messageBody = new byte[wLen-Message.BYTES_WITHOUT_MESSAGE];
         //length checks
         if(bytes.length<HEADER_LENGTH+CRC16_LENGTH+wLen)
         {
             throw new IllegalArgumentException("Insufficient number of bytes");
         }
-        if(bytes.length>HEADER_LENGTH+CRC16_LENGTH+wLen)
-        {
-            throw new IllegalArgumentException("Too long");
-        }
         buffer.get(messageBody);
-        bMsq.setMessage(new String(messageBody));
-        bMsq.decode();
-      //  System.out.println("Decoded message: "+bMsq.getMessage());
+        bMsq.setMessage(Decryptor.decrypt(new String(messageBody)));
+        //bMsq.setMessage(Decryptor.decrypt(bMsq.getMessage()));
+        System.out.println("Decoded message: "+bMsq.getMessage());
         byte[] message = Arrays.copyOfRange(bytes,HEADER_LENGTH,HEADER_LENGTH+wLen);
         wCrc16_2 = buffer.getShort();
-     //   System.out.println("CRC message: "+ wCrc16_2);
+        System.out.println("CRC message: "+ wCrc16_2);
         //crc_2 check
         if(crc16(message)!=wCrc16_2){
             throw new IllegalArgumentException("CRC16 message");
@@ -116,6 +113,22 @@ public class Packet {
                 .put(FirstPart)
                 .putShort(wCrc16_1)
                 .put(message.packetPart())
+                .putShort(wCrc16_2)
+                .array();
+    }
+    public byte[] toBytes() {
+        byte[] FirstPart = ByteBuffer.allocate(HEADER_LENGTH - CRC16_LENGTH)
+                .order(ByteOrder.BIG_ENDIAN)
+                .put(bMagic)
+                .put(bSrc)
+                .putLong(bPktId.longValue())
+                .putInt(bMsq.getBytesLength())
+                .array();
+        return ByteBuffer.allocate(HEADER_LENGTH+bMsq.getBytesLength()+CRC16_LENGTH)
+                .order(ByteOrder.BIG_ENDIAN)
+                .put(FirstPart)
+                .putShort(wCrc16_1)
+                .put(bMsq.packetPart())
                 .putShort(wCrc16_2)
                 .array();
     }

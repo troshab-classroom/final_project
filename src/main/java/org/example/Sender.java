@@ -1,12 +1,10 @@
 package org.example;
-
 import java.util.concurrent.*;
-
-import static org.example.Decryptor.decrypt;
 
 public class Sender implements Runnable{
     private static ExecutorService service4 = Executors.newFixedThreadPool(6);
     Packet packet;
+    //made static to access in client
     static BlockingQueue<Packet> queue;
     Sender(BlockingQueue<Packet> queue) throws InterruptedException {
         //this.packet = queue.take();
@@ -18,8 +16,8 @@ public class Sender implements Runnable{
     }
 
     public void sendMessage() {
-        packet.getBMsq().setMessage(decrypt(packet.getBMsq().getMessage()));
-        System.out.println(packet.getBPktId()+": "+packet.getBMsq());
+//        packet.getBMsq().setMessage(decrypt(packet.getBMsq().getMessage()));
+//        System.out.println(packet.getBPktId()+": "+packet.getBMsq());
     }
 
     @Override

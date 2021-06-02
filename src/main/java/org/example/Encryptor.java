@@ -59,7 +59,8 @@ public class Encryptor implements Runnable {
     @Override
     public void run() {
         try {
-            packet.getBMsq().setMessage(encrypt(packet.getBMsq().getMessage()));
+           // packet.getBMsq().setMessage(encrypt(packet.getBMsq().getMessage()));
+            packet.encodePackage();
             queue.put(packet);
             Thread.sleep(3000);
         } catch (Exception e) {
