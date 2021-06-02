@@ -13,6 +13,9 @@ import static org.example.CRC16.crc16;
 public class Packet {
 
     private final static Byte bMagic = 0x13;
+    public final static Integer HEADER_LENGTH = 16;
+    public final static Integer CRC16_LENGTH = 2;
+
     private Byte bSrc;
     private UnsignedLong bPktId;
     private Integer wLen;
@@ -29,7 +32,7 @@ public class Packet {
 
     public Packet(byte[] bytes) throws Exception{
         //length check
-        if(bytes.length<18)
+        if(bytes.length<HEADER_LENGTH+CRC16_LENGTH)
         {
             throw new IllegalArgumentException("Too small");
         }
@@ -48,7 +51,7 @@ public class Packet {
         System.out.println("Length of encoded message: "+wLen);
         wCrc16_1 = buffer.getShort();
         System.out.println("CRC head: "+wCrc16_1);
-        byte[] FirstPart = ByteBuffer.allocate(14)
+        byte[] FirstPart = ByteBuffer.allocate(HEADER_LENGTH - CRC16_LENGTH)
                 .order(ByteOrder.BIG_ENDIAN)
                 .put(bMagic)
                 .put(bSrc)
@@ -64,13 +67,13 @@ public class Packet {
         System.out.println("Command type: "+bMsq.getCType());
         bMsq.setBUserId(buffer.getInt());
         System.out.println("User id: "+bMsq.getBUserId());
-        byte[] messageBody = new byte[wLen-8];
+        byte[] messageBody = new byte[wLen-Message.BYTES_WITHOUT_MESSAGE];
         //length checks
-        if(bytes.length<18+wLen)
+        if(bytes.length<HEADER_LENGTH+CRC16_LENGTH+wLen)
         {
             throw new IllegalArgumentException("Insufficient number of bytes");
         }
-        if(bytes.length>18+wLen)
+        if(bytes.length>HEADER_LENGTH+CRC16_LENGTH+wLen)
         {
             throw new IllegalArgumentException("Too long");
         }
@@ -78,7 +81,7 @@ public class Packet {
         bMsq.setMessage(new String(messageBody));
         bMsq.decode();
         System.out.println("Decoded message: "+bMsq.getMessage());
-        byte[] message = Arrays.copyOfRange(bytes,16,16+wLen);
+        byte[] message = Arrays.copyOfRange(bytes,HEADER_LENGTH,HEADER_LENGTH+wLen);
         wCrc16_2 = buffer.getShort();
         System.out.println("CRC message: "+ wCrc16_2);
         //crc_2 check
@@ -99,7 +102,7 @@ public class Packet {
         Message message = getBMsq();
         message.encode();
         wLen = message.getMessageLen();
-        byte[] FirstPart = ByteBuffer.allocate(14)
+        byte[] FirstPart = ByteBuffer.allocate(HEADER_LENGTH - CRC16_LENGTH)
                 .order(ByteOrder.BIG_ENDIAN)
                 .put(bMagic)
                 .put(bSrc)
@@ -108,7 +111,7 @@ public class Packet {
                 .array();
         wCrc16_1 =crc16(FirstPart);
         wCrc16_2 =crc16(message.packetPart());
-        return ByteBuffer.allocate(16+message.getBytesLength()+2)
+        return ByteBuffer.allocate(HEADER_LENGTH+message.getBytesLength()+CRC16_LENGTH)
                 .order(ByteOrder.BIG_ENDIAN)
                 .put(FirstPart)
                 .putShort(wCrc16_1)
