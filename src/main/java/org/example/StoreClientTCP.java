@@ -1,14 +1,9 @@
 package org.example;
-import lombok.SneakyThrows;
-
 import java.net.*;
 import java.io.*;
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
-//public class StoreClientTCP {
-//}
 
-class EchoClient {
+class StoreClientTCP {
     private Socket clientSocket;
     private OutputStream out;
     private InputStream in;
@@ -24,7 +19,7 @@ class EchoClient {
 
     public String sendMessage(Packet p) throws Exception {
         out.write(p.toBytes());
-        byte[] res = new byte[100];
+        byte[] res = new byte[Packet.MAX_SIZE];
         in.read(res);
         Packet packet = new Packet(res);
         String resp = packet.getBMsq().getMessage();
@@ -36,10 +31,10 @@ class EchoClient {
             socket.setSoTimeout(3_000*reconnect_num);
             return sendMessage(pa);
         } catch (Exception e) {
-            System.out.println("Reconnecting\tSERVER IS OFFLINE!!!");
+            System.out.println("Reconnecting. Server is offline");
             if(reconnect_num == RECONNECT_MAX){
                 NUMBER_DEAD.incrementAndGet();
-                System.out.println("SERVER IS DEAD:( \t\t NUMBER of DEAD connections: "+ NUMBER_DEAD);
+                System.out.println("Server is dead. Number of dead connections: "+ NUMBER_DEAD);
                 return "";
             }
             else{

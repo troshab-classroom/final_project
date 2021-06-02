@@ -15,7 +15,7 @@ public class Packet {
     private final static Byte bMagic = 0x13;
     public final static Integer HEADER_LENGTH = 16;
     public final static Integer CRC16_LENGTH = 2;
-    public final static Integer MAX_SIZE = 200;
+    public final static Integer MAX_SIZE = Message.MAX_SIZE_FULL_MESSAGE + HEADER_LENGTH + CRC16_LENGTH*2;
 
     private Byte bSrc;
     private UnsignedLong bPktId;
