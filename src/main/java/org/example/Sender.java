@@ -5,7 +5,7 @@ public class Sender implements Runnable{
     private static ExecutorService service4 = Executors.newFixedThreadPool(6);
     Packet packet;
     //made static to access in client
-    static BlockingQueue<Packet> queue;
+    public static BlockingQueue<Packet> queue;
     Sender(BlockingQueue<Packet> queue) throws InterruptedException {
         //this.packet = queue.take();
         Sender.queue =queue;

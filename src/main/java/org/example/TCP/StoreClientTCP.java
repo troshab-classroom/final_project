@@ -1,17 +1,26 @@
-package org.example;
+package org.example.TCP;
+
+import lombok.SneakyThrows;
+import org.example.Packet;
+
 import java.net.*;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class StoreClientTCP {
+public class StoreClientTCP extends Thread {
     private Socket clientSocket;
     private OutputStream out;
     private InputStream in;
-    private static final int CLIENT_PORT = 5555;
+    private String ip;
+    private int port;
     private static final int RECONNECT_MAX = 3;
     private static final AtomicInteger NUMBER_DEAD = new AtomicInteger(0);
-
-    public void startConnection(String ip, int port) throws IOException {
+    public StoreClientTCP(String ip, int port)
+    {
+        this.ip = ip;
+        this.port = port;
+    }
+    public void startConnection() throws IOException {
         clientSocket = new Socket(ip, port);
         out = clientSocket.getOutputStream();
         in = clientSocket.getInputStream();
@@ -27,7 +36,7 @@ class StoreClientTCP {
     }
     public String reconnect(String ip, Packet pa, int reconnect_num) {
         try {
-            final Socket socket = new Socket(ip, CLIENT_PORT);
+            final Socket socket = new Socket(ip, port);
             socket.setSoTimeout(3_000*reconnect_num);
             return sendMessage(pa);
         } catch (Exception e) {
@@ -47,5 +56,15 @@ class StoreClientTCP {
         in.close();
         out.close();
         clientSocket.close();
+    }
+    @SneakyThrows
+    @Override
+    public void run() {
+        try {
+            startConnection();
+        } catch (IOException e) {
+            throw new Exception("Couldn't connect");
+            //e.printStackTrace();
+        }
     }
 }

@@ -50,5 +50,6 @@ public class Processor implements Runnable{
         Decryptor.shutdown();
         Encryptor.shutdown();
         Sender.shutdown();
+        Receiver.shutdown();
     }
 }

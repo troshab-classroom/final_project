@@ -1,21 +1,22 @@
 package org.example;
-
 import static org.junit.Assert.*;
-
 import com.google.common.primitives.UnsignedLong;
+import org.example.TCP.StoreClientTCP;
 import org.junit.Test;
 
-public class AppTest 
+public class AppTest
 {
 //can be tested when server is offline
     @Test
     public void given100Clients_whenServerResponds_thenCorrect() throws Exception {
         for(int i =0;i<3;++i) {
-            StoreClientTCP client1 = new StoreClientTCP();
+            StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
             try {
-                client1.startConnection("127.0.0.1", 5555);
-                StoreClientTCP client2 = new StoreClientTCP();
-                client2.startConnection("127.0.0.1", 5555);
+                //client1.startConnection("127.0.0.1", 5555);
+                StoreClientTCP client2 = new StoreClientTCP("127.0.0.1", 5555);
+                new Thread(client1).start();
+                new Thread(client2).start();
+                //client2.startConnection("127.0.0.1", 5555);
                 String msg12="";
                 String msg22="";
                 try {
