@@ -2,7 +2,11 @@ package org.example;
 import static org.junit.Assert.*;
 import com.google.common.primitives.UnsignedLong;
 import org.example.TCP.StoreClientTCP;
+import org.example.UDP.StoreClientUDP;
+import org.example.UDP.StoreServerUDP;
 import org.junit.Test;
+
+import java.net.SocketException;
 
 public class AppTest
 {
@@ -44,4 +48,27 @@ public class AppTest
 
         }
     }
+
+
+    @Test
+    public void UDPTest() throws SocketException {
+      //  StoreServerUDP server = new StoreServerUDP(3000);
+      //  server.start();
+     for(byte i =0;i<5;i++){
+         byte finalI = i;
+         byte finalI1 = i;
+         new Thread(() ->{
+             try{
+                 StoreClientUDP client = new StoreClientUDP(finalI);
+                 client.send("Hello from client " + finalI);
+                 Packet pac = client.receive();
+                 System.out.println("response for client " + finalI + " - " + new String(pac.getBMsq().getMessage()));
+                 assertEquals(pac.getBMsq().getMessage(),"ok "+ finalI1);
+             } catch (Exception e) {
+             }
+         }).start();
+    }
+
+}
+
 }
