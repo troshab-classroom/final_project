@@ -2,8 +2,6 @@ package org.example.UDP;
 
 import org.example.Packet;
 
-import java.io.IOException;
-import java.net.SocketException;
 
 public class ClientUDPMain {
     public static void main(String[] args) throws Exception {

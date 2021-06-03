@@ -63,8 +63,8 @@ public class StoreClientTCP extends Thread {
         try {
             startConnection();
         } catch (IOException e) {
-            throw new Exception("Couldn't connect");
-            //e.printStackTrace();
+
+            System.out.println("Couldn`t connect");
         }
     }
 }
