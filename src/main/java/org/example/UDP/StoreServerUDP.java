@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class StoreServerUDP {
 
-    public static final Queue<ClientPacket> PACKETS_TO_SEND = new ConcurrentLinkedQueue<>();
+    public static final Queue<Packet> PACKETS_TO_SEND = new ConcurrentLinkedQueue<>();
 
     private final DatagramSocket socket;
     private final ConcurrentMap<Byte, ClientHandler> clients = new ConcurrentHashMap<>() ;
@@ -33,10 +33,10 @@ public class StoreServerUDP {
     public void sender(){
         while (true){
             try {
-                ClientPacket pac = PACKETS_TO_SEND.poll();
+                Packet pac = PACKETS_TO_SEND.poll();
                 if (pac != null) {
-                    byte[] bytes = pac.getPacket().encodePackage();
-                    DatagramPacket datagramPacket = new DatagramPacket(bytes,bytes.length,clientsAddress.get(pac.getClientId()));
+                    byte[] bytes = pac.encodePackage();
+                    DatagramPacket datagramPacket = new DatagramPacket(bytes,bytes.length,clientsAddress.get(pac.getBSrc()));
                     socket.send(datagramPacket);
                     }
             }catch (Exception e){

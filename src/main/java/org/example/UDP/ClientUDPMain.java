@@ -5,9 +5,9 @@ import org.example.Packet;
 import java.io.IOException;
 import java.net.SocketException;
 
-public class ClientMain {
+public class ClientUDPMain {
     public static void main(String[] args) throws Exception {
-    for(byte i =0;i<10;i++){
+    for(byte i =0;i<5;i++){
         client(i);
     }
     }

@@ -5,6 +5,7 @@ import org.example.Message;
 import org.example.Packet;
 
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ClientHandler extends Thread {
@@ -30,9 +31,9 @@ public class ClientHandler extends Thread {
                 if (pac != null) {
                     System.out.println("receive: " + new String(pac.getBMsq().getMessage()));
 
-                    Thread.sleep(1000);
+                    Thread.sleep(new Random().nextInt(1000));
 
-                    StoreServerUDP.PACKETS_TO_SEND.add(new ClientPacket(new Packet((byte) 0, UnsignedLong.fromLongBits(1000), new Message(1, 1, "ok " + pac.getBSrc())),pac.getBSrc()));
+                    StoreServerUDP.PACKETS_TO_SEND.add(new Packet(pac.getBSrc(), UnsignedLong.fromLongBits(1000), new Message(1, 1, "ok " + pac.getBSrc())));
                 }
             }catch(Exception e){
 
