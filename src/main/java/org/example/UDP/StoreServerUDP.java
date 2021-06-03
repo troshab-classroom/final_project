@@ -49,7 +49,7 @@ public class StoreServerUDP {
     public void receive() {
         while (true) {
             try {
-                DatagramPacket datagramPacket = new DatagramPacket(new byte[200], 200);
+                DatagramPacket datagramPacket = new DatagramPacket(new byte[Packet.MAX_SIZE], Packet.MAX_SIZE);
                 socket.receive(datagramPacket);
 
                 Packet request = new Packet(Arrays.copyOfRange(datagramPacket.getData(), 0, datagramPacket.getLength()));

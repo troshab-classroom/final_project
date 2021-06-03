@@ -1,12 +1,9 @@
 package org.example.UDP;
-
 import com.google.common.primitives.UnsignedLong;
 import org.example.Message;
 import org.example.Packet;
-
 import java.io.IOException;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class StoreClientUDP {
@@ -25,7 +22,7 @@ public class StoreClientUDP {
     }
 
     public Packet receive() throws Exception {
-        DatagramPacket datagramPacket = new DatagramPacket(new byte[200],200);
+        DatagramPacket datagramPacket = new DatagramPacket(new byte[Packet.MAX_SIZE],Packet.MAX_SIZE);
         socket.receive(datagramPacket);
         Packet request =new Packet(Arrays.copyOfRange(datagramPacket.getData(),0,datagramPacket.getLength()));
 

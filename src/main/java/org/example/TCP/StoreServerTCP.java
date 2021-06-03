@@ -29,8 +29,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 //What can be better in this code:
 //1. We can use poison pill to have only one queue (BUT in this case we will have to process everything
 // gradually: got 10 requests, got 10 responses, then again to receiver, so user will wait longer)
-//2.We can remove receiver and sender classes, because its functionality implemented in server and in
+//2. We can remove receiver and sender classes, because its functionality implemented in server and in
 // client
+//3. We should remember client's addresses in ConcurrentMap to know exactly whose packek are sent
+//(BUT in this realisation it is generating randomly)
 
 //Maybe, i have written something illogical, but it is my attempt to explain....
 class StoreServerTCP {
