@@ -15,7 +15,7 @@ public class CRUDstatements {
                 tableName1 +
                 " (id_group INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_group TEXT UNIQUE," +
-                "descripton TEXT)";
+                "description TEXT)";
 
         try {
             Statement statement = DataBase.connection.createStatement();
@@ -31,7 +31,7 @@ public class CRUDstatements {
                 tableName +
                 " (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name_product TEXT UNIQUE," +
-                "descripton TEXT, " +
+                "description TEXT, " +
                 "manufacturer TEXT, " +
                 "amount_store INTEGER," +
                 "price_product REAL," +
@@ -50,6 +50,39 @@ public class CRUDstatements {
             sqlException.printStackTrace();
         }
     }
+    public static int insertGroup(final Group group){
+            String query = "insert into '"+tableName1+"' ('name_group', 'description') values ( ?, ?);";
+            try (final PreparedStatement insertStatement = DataBase.connection.prepareStatement(query)) {
+
+                insertStatement.setString(1, group.getName());
+                insertStatement.setString(2, group.getDescription());
+
+                insertStatement.execute();
+                return insertStatement.getGeneratedKeys().getInt("last_insert_rowid()");
+            } catch (SQLException e) {
+                throw new RuntimeException("Can't insert group", e);
+            }
+    }
+
+    public static int insertProduct(final Product product){
+            String query = "insert into '"+ tableName+ "'('name_product', 'price_product', 'amount_store', 'description', 'manufacturer', 'product_id_group') values (?, ?, ?, ?, ?, ?);";
+            try(final PreparedStatement insertStatement = DataBase.connection.prepareStatement(query)) {
+
+                insertStatement.setString(1, product.getTitle());
+                insertStatement.setDouble(2, product.getPrice().doubleValue());
+                insertStatement.setDouble(3, product.getAmount().intValue());
+                insertStatement.setString(4, product.getDescription());
+                insertStatement.setString(5, product.getManufacturer());
+                insertStatement.setInt(6, product.getId_group().intValue());
+
+                insertStatement.execute();
+
+                final ResultSet result = insertStatement.getGeneratedKeys();
+                return result.getInt("last_insert_rowid()");
+            } catch (SQLException e) {
+                throw new RuntimeException("Can't insert product", e);
+            }
+    }
     //read statements
     public static ResultSet selectAllFromProduct() {
         String sqlQuery = "SELECT * FROM " + tableName;
@@ -64,6 +97,36 @@ public class CRUDstatements {
 
         return null;
     }
+    public static int getIdGroup(String name) {
+        String sqlQuery = "SELECT id_group FROM " + tableName1+"WHERE name_group = ?";
+
+        try {
+            PreparedStatement statement  = DataBase.connection.prepareStatement(sqlQuery);
+
+            statement.setString(1, name);
+
+            statement.executeUpdate();
+            return statement.getGeneratedKeys().getInt("last_insert_rowid()");
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return -1;
+    }
+    public static int getIdProduct(String name) {
+        String sqlQuery = "SELECT id_product FROM " + tableName+"WHERE name_product = ?";
+
+        try {
+            PreparedStatement statement  = DataBase.connection.prepareStatement(sqlQuery);
+
+            statement.setString(1, name);
+
+            statement.executeUpdate();
+            return statement.getGeneratedKeys().getInt("last_insert_rowid()");
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return -1;
+    }
     public static ResultSet selectAllFromGroup() {
         String sqlQuery = "SELECT * FROM " + tableName1;
 
@@ -74,10 +137,47 @@ public class CRUDstatements {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-
         return null;
     }
+    //update statements
+    public int updateProduct(Product product, int id){
+            try (final PreparedStatement preparedStatement =
+                         DataBase.connection.prepareStatement("update '"+tableName+"' set name_product = ?, price_product = ?, amount = ?, description = ?, manufacturer = ?, product_id_group = ?  where id_product = ?")) {
+                preparedStatement.setString(1, product.getTitle());
+                preparedStatement.setDouble(2, product.getPrice().doubleValue());
+                preparedStatement.setDouble(3, product.getAmount().intValue());
+                preparedStatement.setString(4, product.getDescription());
+                preparedStatement.setString(5, product.getManufacturer());
+                preparedStatement.setInt(6, product.getId_group().intValue());
+                preparedStatement.setInt(7, id);
+                preparedStatement.executeUpdate();
+                return preparedStatement.getGeneratedKeys().getInt("last_insert_rowid()");
+            } catch (SQLException e) {
+                throw new RuntimeException("Can't update product", e);
+            }
+    }
+    public int updateGroup(Group group, int id){
+        try (final PreparedStatement preparedStatement =
+                     DataBase.connection.prepareStatement("update '"+tableName+"' set name_group = ?, description = ? where id_group = ?")) {
+            preparedStatement.setString(1, group.getName());
+            preparedStatement.setString(2, group.getDescription());
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+            return preparedStatement.getGeneratedKeys().getInt("last_insert_rowid()");
+        } catch (SQLException e) {
+            throw new RuntimeException("Can't update product", e);
+        }
+    }
     //delete statements
+    public static void deleteFromProductAll() {
+        String sqlQuery = "DELETE FROM " + tableName ;
+        try {
+            Statement statement = DataBase.connection.createStatement();
+            statement.execute(sqlQuery);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public static void deleteFromProduct(int id) {
         String sqlQuery = "DELETE FROM " + tableName + " WHERE id = ?";
 
@@ -105,6 +205,15 @@ public class CRUDstatements {
 
             System.out.println("Table " + tableName + " droped");
             System.out.println();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void deleteFromGroupAll() {
+        String sqlQuery = "DELETE FROM " + tableName1 ;
+        try {
+            Statement statement = DataBase.connection.createStatement();
+            statement.execute(sqlQuery);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

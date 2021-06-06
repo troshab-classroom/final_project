@@ -1,4 +1,6 @@
 package org.example;
+import com.google.common.util.concurrent.AtomicDouble;
+
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -63,7 +65,7 @@ public class Warehouse {
         }
     }
 
-    AtomicInteger getProductPrice(String productTitle){
+    AtomicDouble getProductPrice(String productTitle){
         for(ArrayList<Product> al : warehouse.values()){
             for(Product p : al){
                 if(p.getTitle().equals(productTitle)){
@@ -71,7 +73,7 @@ public class Warehouse {
                 }
             }
         }
-        return new AtomicInteger(-1);
+        return new AtomicDouble(-1);
     }
 
 }
