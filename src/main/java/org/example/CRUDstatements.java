@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CRUDstatements {
     static String tableName = "product";
@@ -249,4 +252,41 @@ public class CRUDstatements {
             System.out.println(e.getMessage());
         }
     }
+
+
+    public static List<Product> getByCriteria(ProductCriteria criteria){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM product where ");
+        if(criteria.getTitle()!=null){
+            sb.append("name_product like '%").append(criteria.getTitle()).append("%' and ");
+        }
+
+        if(criteria.getPriceFrom()!=null){
+            sb.append("price_product >= ").append(criteria.getPriceFrom()).append(" and ");
+        }
+
+        if(criteria.getPriceTill()!=null){
+            sb.append("price_product <= ").append(criteria.getPriceTill()).append(" and ");
+        }
+
+        sb.append(" 1=1 ");
+        try(
+                Statement st = DataBase.connection.createStatement();
+                ResultSet res = st.executeQuery(sb.toString());
+        ){
+            List<Product> products = new ArrayList<>();
+            while (res.next()) {
+                products.add(new Product(res.getString("name_product"),res.getDouble("price_product"),res.getInt("amount_store"),res.getInt("product_id_group")));
+            }
+            return products;
+
+        }catch(SQLException e){
+            throw new RuntimeException("Can't select all products",e);
+        }
+    }
+
+
+
+
 }
