@@ -36,7 +36,7 @@ public class CRUDstatements {
                 "amount_store INTEGER," +
                 "price_product REAL," +
                 "product_id_group INTEGER," +
-                "FOREIGN KEY(product_id_group) REFERENCES" +tableName1+"(id_group)  ON UPDATE cascade \n" +
+                "FOREIGN KEY(product_id_group) REFERENCES " +tableName1+"(id_group)  ON UPDATE cascade \n" +
                 "      ON DELETE cascade )";
 
         try {
@@ -92,7 +92,6 @@ public class CRUDstatements {
 
             return statement.executeQuery(sqlQuery);
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
         }
 
         return null;
@@ -105,7 +104,6 @@ public class CRUDstatements {
 
             return statement.executeQuery(sqlQuery);
         } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
         }
         return null;
     }
@@ -140,9 +138,9 @@ public class CRUDstatements {
         return -1;
     }
     //update statements
-    public int updateProduct(Product product, int id){
+    public static int updateProduct(Product product, int id){
             try (final PreparedStatement preparedStatement =
-                         DataBase.connection.prepareStatement("update '"+tableName+"' set name_product = ?, price_product = ?, amount = ?, description = ?, manufacturer = ?, product_id_group = ?  where id_product = ?")) {
+                         DataBase.connection.prepareStatement("update '"+tableName+"' set name_product = ?, price_product = ?, amount_store = ?, description = ?, manufacturer = ?, product_id_group = ?  where id = ?")) {
                 preparedStatement.setString(1, product.getTitle());
                 preparedStatement.setDouble(2, product.getPrice().doubleValue());
                 preparedStatement.setDouble(3, product.getAmount().intValue());
@@ -156,7 +154,7 @@ public class CRUDstatements {
                 throw new RuntimeException("Can't update product", e);
             }
     }
-    public int updateGroup(Group group, int id){
+    public static int updateGroup(Group group, int id){
         try (final PreparedStatement preparedStatement =
                      DataBase.connection.prepareStatement("update '"+tableName1+"' set name_group = ?, description = ? where id_group = ?")) {
             preparedStatement.setString(1, group.getName());
@@ -219,7 +217,7 @@ public class CRUDstatements {
         }
     }
     public static void deleteFromGroup(int id) {
-        String sqlQuery = "DELETE FROM " + tableName1 + " WHERE id = ?";
+        String sqlQuery = "DELETE FROM " + tableName1 + " WHERE id_group = ?";
 
         try {
             PreparedStatement preparedStatement = DataBase.connection.prepareStatement(sqlQuery);

@@ -11,6 +11,13 @@ public class Product {
     private String description;
     private AtomicInteger amount;
     private AtomicInteger id_group;
+    @Override
+    public boolean equals(Object o)
+    {
+        Product t =(Product) o;
+        return (title.equals(t.getTitle()) && price.doubleValue() == t.getPrice().doubleValue()&&manufacturer.equals(t.getManufacturer())
+                &&description.equals(t.getDescription())&&amount.intValue() == t.getAmount().intValue()&&id_group.intValue() ==t.getId_group().intValue());
+    }
     Product(String title, double price, int amount, String man, String des, int id_group){
         this.title = title;
         this.price = new AtomicDouble(price);
