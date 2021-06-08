@@ -26,6 +26,24 @@ public class Product {
         this.manufacturer = man;
         this.id_group = new AtomicInteger(id_group);
     }
+
+
+
+
+    Product(String title, double price, int amount, int group){
+        this.title = title;
+        this.price = new AtomicDouble(price);
+        this.amount = new AtomicInteger(amount);
+        this.id_group=new AtomicInteger(group);
+    }
+
+    Product(final AtomicInteger id, String title, double price, int amount){
+        this.id_group=id;
+        this.title = title;
+        this.price = new AtomicDouble(price);
+        this.amount = new AtomicInteger(amount);
+    }
+
     Product(String title){
         this.title = title;
         this.price = new AtomicDouble(0);
