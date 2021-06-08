@@ -59,13 +59,8 @@ public class AppTest
         assertTrue(r.contains(fruits));
         assertTrue(r.contains(vegies));
 
-        System.out.println(p);
-        System.out.println(r2);
         assertTrue(r2.contains(p));
-        assertTrue(r2.get(0).getTitle().equals(p.getTitle()));
-        assertTrue(r2.get(0).getId_group().intValue() == p.getId_group().intValue());
-        assertTrue(r2.get(1).getTitle().equals(p1.getTitle()));
-        assertTrue(r2.get(1).getId_group().intValue() == p1.getId_group().intValue());
+        assertTrue(r2.contains(p1));
     }
     @Test
     public void updateStatementsCheck() throws SQLException {
@@ -105,10 +100,8 @@ public class AppTest
         assertTrue(r.contains(gCorr));
         assertTrue(r.contains(fruits));
 
-        assertTrue(r2.get(0).getTitle().equals(pCorr.getTitle()));
-        assertTrue(r2.get(0).getId_group().intValue() == pCorr.getId_group().intValue());
-        assertTrue(r2.get(1).getTitle().equals(p1.getTitle()));
-        assertTrue(r2.get(1).getId_group().intValue() == p1.getId_group().intValue());
+        assertTrue(r2.contains(pCorr));
+        assertTrue(r2.contains(p1));
         CRUDstatements.dropGroup();
         CRUDstatements.dropProduct();
     }
@@ -162,32 +155,10 @@ public class AppTest
         assertTrue(r.contains(dairy));
         assertTrue(r.contains(porri));
 
-        assertTrue(r2.get(0).getTitle().equals(p.getTitle()));
-        assertTrue(r2.get(0).getId_group().intValue() == p.getId_group().intValue());
-        assertTrue(r2.get(0).getPrice().intValue() == p.getPrice().intValue());
-        assertTrue(r2.get(0).getAmount().intValue() == p.getAmount().intValue());
-        assertTrue(r2.get(0).getManufacturer().equals(p.getManufacturer()));
-        assertTrue(r2.get(0).getDescription().equals(p.getDescription()));
-
-        assertTrue(r2.get(1).getTitle().equals(p1.getTitle()));
-        assertTrue(r2.get(1).getPrice().intValue() == p1.getPrice().intValue());
-        assertTrue(r2.get(1).getAmount().intValue() == p1.getAmount().intValue());
-        assertTrue(r2.get(1).getManufacturer().equals(p1.getManufacturer()));
-        assertTrue(r2.get(1).getDescription().equals(p1.getDescription()));
-
-        assertTrue(r2.get(2).getTitle().equals(p3.getTitle()));
-        assertTrue(r2.get(2).getId_group().intValue() == p3.getId_group().intValue());
-        assertTrue(r2.get(2).getPrice().intValue() == p3.getPrice().intValue());
-        assertTrue(r2.get(2).getAmount().intValue() == p3.getAmount().intValue());
-        assertTrue(r2.get(2).getManufacturer().equals(p3.getManufacturer()));
-        assertTrue(r2.get(2).getDescription().equals(p3.getDescription()));
-
-        assertTrue(r2.get(3).getTitle().equals(p4.getTitle()));
-        assertTrue(r2.get(3).getId_group().intValue() == p4.getId_group().intValue());
-        assertTrue(r2.get(3).getPrice().intValue() == p4.getPrice().intValue());
-        assertTrue(r2.get(3).getAmount().intValue() == p4.getAmount().intValue());
-        assertTrue(r2.get(3).getManufacturer().equals(p4.getManufacturer()));
-        assertTrue(r2.get(3).getDescription().equals(p4.getDescription()));
+        assertTrue(r2.contains(p));
+        assertTrue(r2.contains(p1));
+        assertTrue(r2.contains(p4));
+        assertTrue(r2.contains(p3));
         CRUDstatements.dropGroup();
         CRUDstatements.dropProduct();
     }
@@ -229,11 +200,7 @@ public class AppTest
             r2.add(new Product(name,price,amount,man,des, descr));
         }
         assertTrue(!r.contains(fruits));
-        System.out.println(r2.size());
-        System.out.println(r2);
-        System.out.println(r.size());
-        System.out.println(r);
-        assertTrue(r2.size()==1);
+        assertTrue(!r2.contains(p));
 
         CRUDstatements.deleteFromProductAll();
         CRUDstatements.deleteFromGroupAll();
