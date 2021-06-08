@@ -39,7 +39,7 @@ public class CRUDstatements {
                 "amount_store INTEGER," +
                 "price_product REAL," +
                 "product_id_group INTEGER," +
-                "FOREIGN KEY(product_id_group) REFERENCES group_product(id_group)  ON UPDATE cascade \n" +
+                "FOREIGN KEY(product_id_group) REFERENCES" +tableName1+"(id_group)  ON UPDATE cascade \n" +
                 "      ON DELETE cascade )";
 
         try {
@@ -100,6 +100,18 @@ public class CRUDstatements {
 
         return null;
     }
+    public static ResultSet selectAllFromGroup() {
+        String sqlQuery = "SELECT * FROM " + tableName1;
+
+        try {
+            Statement statement  = DataBase.connection.createStatement();
+
+            return statement.executeQuery(sqlQuery);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
     public static int getIdGroup(String name) {
         String sqlQuery = "SELECT id_group FROM " + tableName1+"WHERE name_group = ?";
 
@@ -130,18 +142,6 @@ public class CRUDstatements {
         }
         return -1;
     }
-    public static ResultSet selectAllFromGroup() {
-        String sqlQuery = "SELECT * FROM " + tableName1;
-
-        try {
-            Statement statement  = DataBase.connection.createStatement();
-
-            return statement.executeQuery(sqlQuery);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return null;
-    }
     //update statements
     public int updateProduct(Product product, int id){
             try (final PreparedStatement preparedStatement =
@@ -161,7 +161,7 @@ public class CRUDstatements {
     }
     public int updateGroup(Group group, int id){
         try (final PreparedStatement preparedStatement =
-                     DataBase.connection.prepareStatement("update '"+tableName+"' set name_group = ?, description = ? where id_group = ?")) {
+                     DataBase.connection.prepareStatement("update '"+tableName1+"' set name_group = ?, description = ? where id_group = ?")) {
             preparedStatement.setString(1, group.getName());
             preparedStatement.setString(2, group.getDescription());
             preparedStatement.setInt(3, id);
