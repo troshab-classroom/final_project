@@ -266,6 +266,13 @@ public class CRUDstatements {
         if(criteria.getPriceTill()!=null){
             sb.append("price_product <= ").append(criteria.getPriceTill()).append(" and ");
         }
+        if(criteria.getAmountTill()!=null){
+            sb.append("amount_store <= ").append(criteria.getAmountTill()).append(" and ");
+        }
+        if(criteria.getAmountFrom()!=null){
+            sb.append("amount_store >= ").append(criteria.getAmountFrom()).append(" and ");
+        }
+
 //        if(criteria.getGroup_name()!=null){
 //            sb.append("id_group == ").append(getIdGroup(criteria.getGroup_name())).append(" and ");
 //        }
