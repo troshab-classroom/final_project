@@ -2,9 +2,10 @@ package org.example;
 import com.google.common.util.concurrent.AtomicDouble;
 import lombok.Data;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import org.json.JSONObject;
 @Data
 public class Product {
+    private  AtomicInteger id_product;
     private String title;
     private AtomicDouble price;
     private String manufacturer;
@@ -17,6 +18,15 @@ public class Product {
         Product t =(Product) o;
         return (title.equals(t.getTitle()) && price.doubleValue() == t.getPrice().doubleValue()&&manufacturer.equals(t.getManufacturer())
                 &&description.equals(t.getDescription())&&amount.intValue() == t.getAmount().intValue()&&id_group.intValue() ==t.getId_group().intValue());
+    }
+    public JSONObject toJSON(){
+
+        JSONObject json = new JSONObject("{"+"\"id\":"+id_product.intValue()+", \"name\":\""+title+
+                "\", \"price\":"+ price+", \"amount\":"+amount+
+                ", \"description\":\""+description+"\", \"manufacturer\":\""+manufacturer+
+                "\", \"group_id\":"+id_group.intValue()+"}");
+
+        return json;
     }
     Product(String title, double price, int amount, String man, String des, int id_group){
         this.title = title;
