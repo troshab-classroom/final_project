@@ -111,13 +111,12 @@ public class CRUDstatements {
         return null;
     }
     public static int getIdGroup(String name) {
-        String sqlQuery = "SELECT id_group FROM " + tableName1+"WHERE name_group = ?";
+        String sqlQuery = "SELECT id_group FROM " + tableName1+" WHERE name_group = ?";
 
         try {
             PreparedStatement statement  = DataBase.connection.prepareStatement(sqlQuery);
 
             statement.setString(1, name);
-
             statement.executeUpdate();
             return statement.getGeneratedKeys().getInt("last_insert_rowid()");
         } catch (SQLException sqlException) {
@@ -267,6 +266,9 @@ public class CRUDstatements {
         if(criteria.getPriceTill()!=null){
             sb.append("price_product <= ").append(criteria.getPriceTill()).append(" and ");
         }
+//        if(criteria.getGroup_name()!=null){
+//            sb.append("id_group == ").append(getIdGroup(criteria.getGroup_name())).append(" and ");
+//        }
 
         sb.append(" 1=1 ");
         try(

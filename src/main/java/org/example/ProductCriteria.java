@@ -9,6 +9,20 @@ public class ProductCriteria {
     private Double priceTill;
     private Double amountFrom;
     private Double amountTill;
+    private String group_name;
+
+    public ProductCriteria(String title, Double priceFrom, Double priceTill, Double amountFrom, Double amountTill) {
+        this.title = title;
+        this.priceFrom = priceFrom;
+        this.priceTill = priceTill;
+        this.amountFrom = amountFrom;
+        this.amountTill = amountTill;
+       // this.group_name=group_name;
+    }
+
+    public ProductCriteria() {
+    }
+
 
     public String getTitle() {
         return title;
@@ -48,5 +62,13 @@ public class ProductCriteria {
 
     public void setAmountTill(Double amountTill) {
         this.amountTill = amountTill;
+    }
+
+    public String getGroup_name() {
+        return group_name;
+    }
+
+    public void setGroup_name(String group_name) {
+        this.group_name = group_name;
     }
 }

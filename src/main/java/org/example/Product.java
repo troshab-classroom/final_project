@@ -35,6 +35,9 @@ public class Product {
         this.price = new AtomicDouble(price);
         this.amount = new AtomicInteger(amount);
         this.id_group=new AtomicInteger(group);
+        this.manufacturer = "";
+        this.description ="";
+
     }
 
     Product(final AtomicInteger id, String title, double price, int amount){
@@ -42,6 +45,8 @@ public class Product {
         this.title = title;
         this.price = new AtomicDouble(price);
         this.amount = new AtomicInteger(amount);
+        this.description = "";
+        this.manufacturer = "";
     }
 
     Product(String title){
