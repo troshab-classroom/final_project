@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.entities.Message;
+import org.example.entities.Packet;
+
 import java.util.concurrent.*;
 
 public class Processor implements Runnable{

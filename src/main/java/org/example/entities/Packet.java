@@ -1,13 +1,15 @@
 
-package org.example;
+package org.example.entities;
 
 import com.google.common.primitives.UnsignedLong;
 import lombok.Data;
+import org.example.Decryptor;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
-import static org.example.CRC16.crc16;
+import static org.example.entities.CRC16.crc16;
 
 @Data
 public class Packet {

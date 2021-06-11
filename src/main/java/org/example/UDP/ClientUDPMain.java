@@ -1,6 +1,6 @@
 package org.example.UDP;
 
-import org.example.Packet;
+import org.example.entities.Packet;
 
 
 public class ClientUDPMain {

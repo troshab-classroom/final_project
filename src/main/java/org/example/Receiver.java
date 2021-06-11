@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.entities.Packet;
+
 import java.util.concurrent.*;
 
 public class Receiver implements Runnable, org.example.interfaces.Receiver {

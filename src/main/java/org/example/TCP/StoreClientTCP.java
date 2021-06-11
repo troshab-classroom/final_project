@@ -1,7 +1,7 @@
 package org.example.TCP;
 
 import lombok.SneakyThrows;
-import org.example.Packet;
+import org.example.entities.Packet;
 
 import java.net.*;
 import java.io.*;

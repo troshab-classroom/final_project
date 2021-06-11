@@ -1,5 +1,8 @@
 package org.example;
 import com.google.common.primitives.UnsignedLong;
+import org.example.entities.Message;
+import org.example.entities.Packet;
+
 import java.util.Random;
 
 public class Generator {

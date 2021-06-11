@@ -1,4 +1,6 @@
 package org.example;
+import org.example.entities.Packet;
+
 import java.util.concurrent.*;
 
 public class Sender implements Runnable{

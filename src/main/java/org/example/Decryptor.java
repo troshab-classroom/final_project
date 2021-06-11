@@ -1,5 +1,7 @@
 package org.example;
 import lombok.Data;
+import org.example.entities.Packet;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;

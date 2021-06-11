@@ -1,7 +1,7 @@
 package org.example.UDP;
 import com.google.common.primitives.UnsignedLong;
-import org.example.Message;
-import org.example.Packet;
+import org.example.entities.Message;
+import org.example.entities.Packet;
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;

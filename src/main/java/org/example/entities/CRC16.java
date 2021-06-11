@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entities;
 
 public class CRC16 {
     private static final int[] table = {

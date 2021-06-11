@@ -1,5 +1,8 @@
-package org.example;
+package org.example.entities;
 import  lombok.Data;
+import org.example.Decryptor;
+import org.example.Encryptor;
+
 import java.nio.ByteBuffer;
 
 @Data

@@ -1,8 +1,8 @@
 package org.example.TCP;
 import com.google.common.primitives.UnsignedLong;
 import lombok.SneakyThrows;
-import org.example.Message;
-import org.example.Packet;
+import org.example.entities.Message;
+import org.example.entities.Packet;
 import org.example.Receiver;
 import org.example.Sender;
 
