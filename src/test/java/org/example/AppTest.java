@@ -3,9 +3,7 @@ import static org.junit.Assert.*;
 import com.google.common.primitives.UnsignedLong;
 import org.example.TCP.StoreClientTCP;
 import org.example.UDP.StoreClientUDP;
-import org.example.entities.Group;
-import org.example.entities.Message;
-import org.example.entities.Packet;
+import org.example.entities.*;
 import org.junit.Test;
 //commit for branch
 import java.net.SocketException;

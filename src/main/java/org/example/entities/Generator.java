@@ -1,7 +1,8 @@
-package org.example;
+package org.example.entities;
 import com.google.common.primitives.UnsignedLong;
 import org.example.entities.Message;
 import org.example.entities.Packet;
+import org.example.entities.Warehouse;
 
 import java.util.Random;
 

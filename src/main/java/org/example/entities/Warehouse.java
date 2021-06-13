@@ -1,5 +1,6 @@
-package org.example;
+package org.example.entities;
 import com.google.common.util.concurrent.AtomicDouble;
+import org.example.entities.Product;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.entities.Group;
+import org.example.entities.Product;
 import org.example.entities.User;
 
 import java.sql.PreparedStatement;

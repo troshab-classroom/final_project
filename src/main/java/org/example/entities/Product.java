@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entities;
 import com.google.common.util.concurrent.AtomicDouble;
 import lombok.Data;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,7 +40,7 @@ public class Product {
 
 
 
-    Product(String title, double price, int amount, int group){
+    public Product(String title, double price, int amount, int group){
         this.title = title;
         this.price = new AtomicDouble(price);
         this.amount = new AtomicInteger(amount);

@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.entities.Group;
+import org.example.entities.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
