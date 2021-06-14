@@ -94,11 +94,11 @@ public class CRUDstatements {
             try(final PreparedStatement insertStatement = DataBase.connection.prepareStatement(query)) {
 
                 insertStatement.setString(1, product.getTitle());
-                insertStatement.setDouble(2, product.getPrice().doubleValue());
-                insertStatement.setDouble(3, product.getAmount().intValue());
+                insertStatement.setDouble(2, product.getPrice());
+                insertStatement.setDouble(3, product.getAmount());
                 insertStatement.setString(4, product.getDescription());
                 insertStatement.setString(5, product.getManufacturer());
-                insertStatement.setInt(6, product.getId_group().intValue());
+                insertStatement.setInt(6, product.getId_group());
 
                 insertStatement.execute();
 
@@ -179,11 +179,11 @@ public class CRUDstatements {
             try (final PreparedStatement preparedStatement =
                          DataBase.connection.prepareStatement("update '"+ CRUDstatements.product +"' set name_product = ?, price_product = ?, amount_store = ?, description = ?, manufacturer = ?, product_id_group = ?  where id = ?")) {
                 preparedStatement.setString(1, product.getTitle());
-                preparedStatement.setDouble(2, product.getPrice().doubleValue());
-                preparedStatement.setDouble(3, product.getAmount().intValue());
+                preparedStatement.setDouble(2, product.getPrice());
+                preparedStatement.setDouble(3, product.getAmount());
                 preparedStatement.setString(4, product.getDescription());
                 preparedStatement.setString(5, product.getManufacturer());
-                preparedStatement.setInt(6, product.getId_group().intValue());
+                preparedStatement.setInt(6, product.getId_group());
                 preparedStatement.setInt(7, id);
                 preparedStatement.executeUpdate();
                 return preparedStatement.getGeneratedKeys().getInt("last_insert_rowid()");

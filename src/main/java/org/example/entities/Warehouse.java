@@ -24,7 +24,7 @@ public class Warehouse {
         for(ArrayList<Product> al : warehouse.values()){
             for(Product p : al){
                 if(p.getTitle().equals(productTitle)){
-                    return p.getAmount();
+                    return new AtomicInteger(p.getAmount());
                 }
             }
         }
@@ -34,7 +34,7 @@ public class Warehouse {
         for(ArrayList<Product> al : warehouse.values()){
             for(Product p : al){
                 if(p.getTitle().equals(productTitle)){
-                    p.getAmount().addAndGet(-amount);
+                    new AtomicInteger(p.getAmount()).addAndGet(-amount);
                 }
             }
         }
@@ -43,7 +43,7 @@ public class Warehouse {
         for(ArrayList<Product> al : warehouse.values()){
             for(Product p : al){
                 if(p.getTitle().equals(productTitle)){
-                    p.getAmount().addAndGet(amount);
+                    new AtomicInteger(p.getAmount()).addAndGet(amount);
                 }
             }
         }
@@ -60,7 +60,7 @@ public class Warehouse {
         for(ArrayList<Product> al : warehouse.values()){
             for(Product p : al){
                 if(p.getTitle().equals(productTitle)){
-                    p.getPrice().set(price);
+                    new AtomicDouble(p.getPrice()).set(price);
                 }
             }
         }
@@ -70,7 +70,7 @@ public class Warehouse {
         for(ArrayList<Product> al : warehouse.values()){
             for(Product p : al){
                 if(p.getTitle().equals(productTitle)){
-                    return p.getPrice();
+                    return new AtomicDouble(p.getPrice());
                 }
             }
         }

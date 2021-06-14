@@ -5,73 +5,76 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.json.JSONObject;
 @Data
 public class Product {
-    private  AtomicInteger id_product;
+    private int id_product;
     private String title;
-    private AtomicDouble price;
+    private double price;
     private String manufacturer;
     private String description;
-    private AtomicInteger amount;
-    private AtomicInteger id_group;
-    @Override
-    public boolean equals(Object o)
-    {
-        Product t =(Product) o;
-        return (title.equals(t.getTitle()) && price.doubleValue() == t.getPrice().doubleValue()&&manufacturer.equals(t.getManufacturer())
-                &&description.equals(t.getDescription())&&amount.intValue() == t.getAmount().intValue()&&id_group.intValue() ==t.getId_group().intValue());
-    }
+    private int amount;
+    private int id_group;
+    //@Override
+//    public boolean equals(Object o)
+//    {
+//        Product t =(Product) o;
+//        return (title.equals(t.getTitle()) && price.doubleValue() == t.getPrice().doubleValue()&&manufacturer.equals(t.getManufacturer())
+//                &&description.equals(t.getDescription())&&amount.intValue() == t.getAmount().intValue()&&id_group.intValue() ==t.getId_group().intValue());
+//    }
     public JSONObject toJSON(){
 
-        JSONObject json = new JSONObject("{"+"\"id\":"+id_product.intValue()+", \"name\":\""+title+
+        JSONObject json = new JSONObject("{"+"\"id\":"+id_product+", \"name\":\""+title+
                 "\", \"price\":"+ price+", \"amount\":"+amount+
                 ", \"description\":\""+description+"\", \"manufacturer\":\""+manufacturer+
-                "\", \"group_id\":"+id_group.intValue()+"}");
+                "\", \"group_id\":"+id_group+"}");
 
         return json;
     }
-    Product(String title, double price, int amount, String man, String des, int id_group){
+    public Product(){
+    }
+    public Product(String title, double price, int amount, String man, String des, int id_group){
         this.title = title;
-        this.price = new AtomicDouble(price);
-        this.amount = new AtomicInteger(amount);
+        this.price = price;
+        this.amount = amount;
         this.description = des;
         this.manufacturer = man;
-        this.id_group = new AtomicInteger(id_group);
+        this.id_group = id_group;
     }
-
-
-
-
+public Product(String title, String man,String desc){
+        manufacturer = man;
+        this.title=title;
+        this.description = desc;
+}
     public Product(String title, double price, int amount, int group){
         this.title = title;
-        this.price = new AtomicDouble(price);
-        this.amount = new AtomicInteger(amount);
-        this.id_group=new AtomicInteger(group);
+        this.price = price;
+        this.amount = amount;
+        this.id_group=group;
         this.manufacturer = "";
         this.description ="";
 
     }
 
-    Product(final AtomicInteger id, String title, double price, int amount){
+    public Product(final int id, String title, double price, int amount){
         this.id_group=id;
         this.title = title;
-        this.price = new AtomicDouble(price);
-        this.amount = new AtomicInteger(amount);
+        this.price = price;
+        this.amount = amount;
         this.description = "";
         this.manufacturer = "";
     }
 
-    Product(String title){
+    public Product(String title){
         this.title = title;
-        this.price = new AtomicDouble(0);
-        this.amount = new AtomicInteger(0);
+        this.price =0;
+        this.amount =0;
         this.description = "";
         this.manufacturer = "";
-        this.id_group = new AtomicInteger(0);
+        this.id_group = 0;
     }
-    Product(String title, int id_group){
+    public Product(String title, int id_group){
         this.title = title;
-        this.id_group = new AtomicInteger(id_group);
-        this.price = new AtomicDouble(0);
-        this.amount = new AtomicInteger(0);
+        this.id_group =id_group;
+        this.price = 0;
+        this.amount =0;
         this.description = "";
         this.manufacturer = "";
     }
