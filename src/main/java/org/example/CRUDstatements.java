@@ -89,6 +89,24 @@ public class CRUDstatements {
             throw new RuntimeException("Can't insert group", e);
         }
     }
+
+
+//    public static User insertUser(User user){
+//        try (PreparedStatement statement = DataBase.connection.prepareStatement("insert into '"+ CRUDstatements.user +"' ('login', 'password', 'role') values ( ?, ?, ?)")){
+//            statement.setString(1,user.getLogin());
+//            statement.setString(2,user.getPassword());
+//            statement.setString(3,user.getRole());
+//
+//            statement.executeUpdate();
+//            ResultSet rs = statement.getGeneratedKeys();
+//            user.setId_user(rs.getInt("last_insert_rowid()"));
+//            return user;
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Can't insert group", e);
+//        }
+//    }
+
+
     public static int insertProduct(final Product product){
             String query = "insert into '"+ CRUDstatements.product + "'('name_product', 'price_product', 'amount_store', 'description', 'manufacturer', 'product_id_group') values (?, ?, ?, ?, ?, ?);";
             try(final PreparedStatement insertStatement = DataBase.connection.prepareStatement(query)) {
@@ -161,7 +179,7 @@ public class CRUDstatements {
         }
         return -1;
     }
-    public User getUserByLogin(final String login) {
+    public static User getUserByLogin(final String login) {
         try (final PreparedStatement insertStatement = DataBase.connection.prepareStatement("select * from 'users' where login = ?")) {
             insertStatement.setString(1, login);
             final ResultSet resultSet = insertStatement.executeQuery();
