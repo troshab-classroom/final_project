@@ -4,10 +4,7 @@ import org.example.entities.Group;
 import org.example.entities.Product;
 import org.example.entities.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,13 +123,32 @@ public class CRUDstatements {
                 throw new RuntimeException("Can't insert product", e);
             }
     }
+    public static Product getProduct(final int id){
+        try(final Statement statement = DataBase.connection.createStatement()){
+
+            final String sql = String.format("select * from 'products' where id = %s", id);
+            final ResultSet resultSet = statement.executeQuery(sql);
+
+            Product product = new Product(
+                    resultSet.getString("name_product"),
+                    resultSet.getDouble("price_product"),
+                    resultSet.getInt("amount_store"),
+                    resultSet.getString("manufacturer"),
+                    resultSet.getString("description"),
+                    resultSet.getInt("product_id_group"));
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+//            throw new RuntimeException("Can't get product", e);
+        }
+    }
     //read statements
     public static ResultSet selectAllFromProduct() {
         String sqlQuery = "SELECT * FROM " + product;
 
         try {
             Statement statement  = DataBase.connection.createStatement();
-
             return statement.executeQuery(sqlQuery);
         } catch (SQLException sqlException) {
         }
@@ -231,7 +247,7 @@ public class CRUDstatements {
             System.out.println(e.getMessage());
         }
     }
-    public static void deleteFromProduct(int id) {
+    public static int deleteFromProduct(int id) {
         String sqlQuery = "DELETE FROM " + product + " WHERE id = ?";
 
         try {
@@ -246,6 +262,7 @@ public class CRUDstatements {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return id;
     }
 
     public static void dropProduct() {
