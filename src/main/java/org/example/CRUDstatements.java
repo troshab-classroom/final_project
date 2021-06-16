@@ -83,7 +83,7 @@ public class CRUDstatements {
             insertStatement.execute();
             return insertStatement.getGeneratedKeys().getInt("last_insert_rowid()");
         } catch (SQLException e) {
-            throw new RuntimeException("Can't insert group", e);
+            throw new RuntimeException("Can't insert user", e);
         }
     }
 

@@ -2,27 +2,21 @@ package org.example.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.*;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.example.CRUDstatements;
 import org.example.DataBase;
-import org.example.entities.Group;
 import org.example.entities.Product;
 import org.example.entities.User;
-import org.junit.runner.notification.Failure;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ServerHttp {
@@ -30,9 +24,9 @@ public class ServerHttp {
         DataBase.connect();
         CRUDstatements.create();
         ServerHttp s = new ServerHttp();
-        CRUDstatements.insertUser(new User("login4","password1","role1"));
-        CRUDstatements.insertUser(new User("login5","password2","role2"));
-        CRUDstatements.insertUser(new User("login6","password3","role3"));
+//        CRUDstatements.insertUser(new User("login4","password1","admin"));
+//        CRUDstatements.insertUser(new User("login5","password2","buyer"));
+//        CRUDstatements.insertUser(new User("login6","password3",""));
     }
     private static final byte[] API_KEY_SECRET_BYTES = "my-token-secret-key-kfbjfbelfbeljfbekfblefbelafblaejfasfbjlelbfjfbblbefjefbjeklfbejbfejfb".getBytes(StandardCharsets.UTF_8);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -41,21 +35,31 @@ public class ServerHttp {
 
     public ServerHttp() throws IOException, SQLException {
         server.bind(new InetSocketAddress(8080), 0);
-        //server.createContext("/", this::rootHandler).setAuthenticator(new MyAuthenticator());
-        server.createContext("/api/good",this::putProductHandler);
+        server.createContext("/", this::rootHandler);
+        server.createContext("/api/good",this::putProductHandler).setAuthenticator(new MyAuthenticator());
         server.createContext("/login",this::handleLogin);
         //in case of server shutdown we need to restore each product, which exists in database
         ResultSet r = CRUDstatements.selectAllFromProduct();
         while (r.next())
         {
-            int id = r.getInt("id_product");
+            int id = r.getInt("id");
             server.createContext("/api/good/"+id,exchange->
-            {getProductByIdHandler(exchange,id);});
+            {productsHandler(exchange,id);}).setAuthenticator(new MyAuthenticator());
         }
         server.start();
     }
     public void stop() {
         this.server.stop(1);
+    }
+    private void rootHandler(final HttpExchange myExchange) throws IOException {
+        String method = myExchange.getRequestMethod();
+        if (method.equals("GET")) {
+            myExchange.sendResponseHeaders(200, ("Available tabs: /login, /api/good, /api/good/{id_product} ").length());
+            myExchange.getResponseBody().write(("Available tabs: /login, /api/good, /api/good/{id_product} ").getBytes());
+        }else {
+            myExchange.sendResponseHeaders(405, ("Not appropriate command").length());
+            myExchange.getResponseBody().write(("Not appropriate command").getBytes());
+        }
     }
     private void productsHandler(final HttpExchange myExchange,int id) throws IOException {
         try (final InputStream requestBody = myExchange.getRequestBody()) {
@@ -92,7 +96,8 @@ public class ServerHttp {
                     if (price > 0) {
                         product.setPrice(price);
                     } else if (price < 0) {
-                        //writeResponse(exchange, 409, ErrorResponse.of("Wrong input"));
+                        myExchange.sendResponseHeaders(409, ("Wrong input").length());
+                        myExchange.getResponseBody().write(("Wrong input").getBytes());
                         return;
                     }
 
@@ -100,7 +105,8 @@ public class ServerHttp {
                     if (amount > 0) {
                         product.setAmount(amount);
                     } else if (amount < 0) {
-                        //writeResponse(exchange, 409, ErrorResponse.of("Wrong input"));
+                        myExchange.sendResponseHeaders(409, ("Wrong input").length());
+                        myExchange.getResponseBody().write(("Wrong input").getBytes());
                         return;
                     }
 
@@ -118,7 +124,8 @@ public class ServerHttp {
                     if (group_id > 0) {
                         product.setId_group(group_id);
                     } else if (group_id < 0) {
-                        //writeResponse(exchange, 409, ErrorResponse.of("Wrong input"));
+                        myExchange.sendResponseHeaders(409, ("Wrong input").length());
+                        myExchange.getResponseBody().write(("Wrong input").getBytes());
                         return;
                     }
 
@@ -127,10 +134,12 @@ public class ServerHttp {
                     if (updated > 0) {
                         myExchange.sendResponseHeaders(204, -1);
                     } else {
-                        //writeResponse(exchange, 404, ErrorResponse.of("Can't update product"));
+                        myExchange.sendResponseHeaders(404, ("Can't update product").length());
+                        myExchange.getResponseBody().write(("Can't update product").getBytes());
                     }
                 } else {
-                    //writeResponse(exchange, 404, ErrorResponse.of("No such product"));
+                    myExchange.sendResponseHeaders(404, ("No such product").length());
+                    myExchange.getResponseBody().write(("No such product").getBytes());
                 }
             } else if (method.equals("DELETE")) {
                 if (product != null) {
@@ -144,7 +153,6 @@ public class ServerHttp {
             myExchange.sendResponseHeaders(405, ("Not appropriate command").length());
             myExchange.getResponseBody().write(("Not appropriate command").getBytes());
             }
-
         }
     }
     private void putProductHandler(final HttpExchange myExchange) {
@@ -170,7 +178,7 @@ public class ServerHttp {
 
                         int id = CRUDstatements.insertProduct(product);
                         server.createContext("/api/good/"+id,exchange->
-                        {getProductByIdHandler(exchange,id);});
+                        {productsHandler(exchange,id);}).setAuthenticator(new MyAuthenticator());
                         myExchange.sendResponseHeaders(201, ("Successfully created product!" + id).length());
                         myExchange.getResponseBody().write(("Successfully created product!" + id).getBytes());
 
@@ -189,33 +197,6 @@ public class ServerHttp {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
-//        HttpContext context = server.createContext("/api/good",exchange ->{
-//            byte[] response = "{\"status\": \"ok\"}".getBytes(StandardCharsets.UTF_8);
-//            exchange.getResponseHeaders().set("Content-Type", "application/json");
-//            exchange.sendResponseHeaders(200,response.length);
-//            exchange.getResponseBody().write(response);
-//            exchange.close();
-//        });
-//        context.setAuthenticator(new Authenticator(){
-//            @Override
-//            public Result authenticate(final HttpExchange exch){
-//                String jwt = exch.getRequestHeaders().getFirst("Authorization");
-//                if(jwt!=null){
-//                    String login = getUserLoginFromJWT(jwt);
-//                    User user = CRUDstatements.getUserByLogin(login);
-//
-//                    if(user!=null){
-//                        return new Authenticator.Success(new HttpPrincipal(login,"admin"));
-//                    }
-//                }
-//                return new Failure(403);
-//            }
-//        });
-
     }
 
 
@@ -242,6 +223,7 @@ private void handleLogin(final HttpExchange myExchange) throws IOException {
         myExchange.sendResponseHeaders(401, 0);
     }
 }else {
+        myExchange.getRequestBody();
         myExchange.sendResponseHeaders(405, ("Not appropriate command").length());
         myExchange.getResponseBody().write(("Not appropriate command").getBytes());
     }
@@ -263,7 +245,7 @@ private void handleLogin(final HttpExchange myExchange) throws IOException {
 
     }
 
-    private static String getUserLoginFromJWT(String jwt) {
+    public static String getUserLoginFromJWT(String jwt) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         Date now = new Date();
         Key signingKey = new SecretKeySpec(API_KEY_SECRET_BYTES, signatureAlgorithm.getJcaName());
@@ -279,57 +261,5 @@ private void handleLogin(final HttpExchange myExchange) throws IOException {
         System.out.println("Expiration: " + claims.getExpiration());
         System.out.println("username: " + claims.get("userName",String.class));
         return claims.getSubject();
-    }
-    private void getProductByIdHandler(final HttpExchange exchange, int prId) {
-        try (final InputStream inputStream = exchange.getRequestBody();
-             final OutputStream os = exchange.getResponseBody()) {
-            exchange.getResponseHeaders()
-                    .add("Content-Type", "application/json");
-
-            String method = exchange.getRequestMethod();
-
-            if (!exchange.getPrincipal().getRealm().equals("admin")) {
-                exchange.sendResponseHeaders(201, ("No permission").length());
-                exchange.getResponseBody().write(("No permission").getBytes());
-                return;
-            }
-
-            final int productId = prId;
-            final Product product = CRUDstatements.getProduct(productId);
-
-            if (method.equals("GET")) {
-
-                if (product != null) {
-                    exchange.sendResponseHeaders(200, OBJECT_MAPPER.writeValueAsBytes(product).length);
-                    exchange.getResponseBody().write(OBJECT_MAPPER.writeValueAsBytes(product));
-                } else {
-                    exchange.sendResponseHeaders(201, ("No such product").length());
-                    exchange.getResponseBody().write(("No such product").getBytes());
-                }
-
-            } else if (method.equals("DELETE")) {
-
-                if (product != null) {
-                    int deleted = CRUDstatements.deleteFromProduct(productId);
-
-                    if (deleted == productId) {
-                        exchange.sendResponseHeaders(204, -1);
-                    } else {
-                        exchange.sendResponseHeaders(404, ("Deletion failed").length());
-                        exchange.getResponseBody().write(("Deletion failed").getBytes());
-                    }
-                } else {
-                    exchange.sendResponseHeaders(404, ("No such product").length());
-                    exchange.getResponseBody().write(("No such product").getBytes());
-                }
-
-            } else {
-                exchange.sendResponseHeaders(404, ("Not appropriate command").length());
-                exchange.getResponseBody().write(("Not appropriate command").getBytes());
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
