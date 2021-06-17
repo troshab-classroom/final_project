@@ -120,25 +120,40 @@ public class CRUDstatements {
                 final ResultSet result = insertStatement.getGeneratedKeys();
                 return result.getInt("last_insert_rowid()");
             } catch (SQLException e) {
-                throw new RuntimeException("Can't insert product", e);
+                return 0;
             }
     }
     public static Product getProduct(final int id){
         try(final Statement statement = DataBase.connection.createStatement()){
 
-            final String sql = String.format("select * from 'products' where id = %s", id);
+            final String sql = String.format("select * from 'product' where id = %s", id);
             final ResultSet resultSet = statement.executeQuery(sql);
-
-            Product product = new Product(
-                    resultSet.getString("name_product"),
-                    resultSet.getDouble("price_product"),
-                    resultSet.getInt("amount_store"),
-                    resultSet.getString("manufacturer"),
-                    resultSet.getString("description"),
-                    resultSet.getInt("product_id_group"));
+            Product product = null;
+while(resultSet.next()) {
+    product = new Product(
+            resultSet.getString("name_product"),
+            resultSet.getDouble("price_product"),
+            resultSet.getInt("amount_store"),
+            resultSet.getString("manufacturer"),
+            resultSet.getString("description"),
+            resultSet.getInt("product_id_group"));
+}
             return product;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
+//            throw new RuntimeException("Can't get product", e);
+        }
+    }
+    public static Group getGroup(final int id){
+        try(final Statement statement = DataBase.connection.createStatement()){
+            final String sql = String.format("select * from 'group_product' where id_group = %s", id);
+            final ResultSet resultSet = statement.executeQuery(sql);
+            Group group=null;
+            while(resultSet.next())
+                group = new Group(resultSet.getString("name_group"),resultSet.getString("description"));
+            return group;
+        } catch (SQLException e) {
             return null;
 //            throw new RuntimeException("Can't get product", e);
         }
@@ -181,7 +196,7 @@ public class CRUDstatements {
         return -1;
     }
     public static int getIdProduct(String name) {
-        String sqlQuery = "SELECT id_product FROM " + product +"WHERE name_product = ?";
+        String sqlQuery = "SELECT id FROM " + product +" WHERE name_product = ?";
 
         try {
             PreparedStatement statement  = DataBase.connection.prepareStatement(sqlQuery);
@@ -220,9 +235,10 @@ public class CRUDstatements {
                 preparedStatement.setInt(6, product.getId_group());
                 preparedStatement.setInt(7, id);
                 preparedStatement.executeUpdate();
-                return preparedStatement.getGeneratedKeys().getInt("last_insert_rowid()");
+                return id;
             } catch (SQLException e) {
-                throw new RuntimeException("Can't update product", e);
+                return 0;
+                //throw new RuntimeException("Can't update product", e);
             }
     }
     public static int updateGroup(Group group, int id){

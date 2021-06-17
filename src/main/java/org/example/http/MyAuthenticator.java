@@ -1,5 +1,4 @@
 package org.example.http;
-
 import com.sun.net.httpserver.Authenticator;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpPrincipal;
@@ -8,7 +7,8 @@ import org.example.entities.User;
 
 public  class MyAuthenticator extends Authenticator {
     private static final String AUTHORIZATION_HEADER = "Authorization";
-    @Override
+
+     @Override
     public Result authenticate(final HttpExchange httpExchange) {
         final String token = httpExchange.getRequestHeaders().getFirst(AUTHORIZATION_HEADER);
             try {
