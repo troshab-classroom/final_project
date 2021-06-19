@@ -1,28 +1,32 @@
 package org.example;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
-import org.example.entities.Group;
-import org.example.entities.Product;
+public class Main extends Application {
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+    @Override
+    public void start(Stage stage) {
 
-public class Main {
-    public static void main(String[] args) throws SQLException {
-        DataBase.connect();
-        CRUDstatements.create();
-        CRUDstatements.deleteFromProductAll();
-        CRUDstatements.deleteFromGroupAll();
-        Group fruits = new Group("Fruits", "sweet");
-        Product p = new Product("orange",1);
-        CRUDstatements.insertProduct(p);
-        CRUDstatements.insertGroup(fruits);
-        ResultSet r = CRUDstatements.selectAllFromGroup();
-        while (r.next()) {
-            int id = r.getInt("id_group");
-            String name = r.getString("name_group");
-            String descr = r.getString("description");
-            System.out.println(id+" "+name+" "+descr);
+        try {
+            URL url = new File("src/main/java/org/example/test.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Storehouse");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }
