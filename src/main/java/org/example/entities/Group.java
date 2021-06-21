@@ -13,6 +13,11 @@ public class Group {
         this.name = name;
         this.description = description;
     }
+    public Group(int id, final String name, final String description) {
+        this.id_group=id;
+        this.name = name;
+        this.description = description;
+    }
     public JSONObject toJSON(){
         JSONObject json = new JSONObject("{"+"\"id\":"+id_group+", \"name\":\""+name+"\", \"description\":\""+description+"\"}");
         return json;

@@ -52,7 +52,18 @@ public Product(String title, String man,String desc){
         this.description ="";
 
     }
+    public Product(int id, String title, double price, int amount,String des, String man, int group){
+        this.id_product = id;
+        this.title = title;
+        this.price = price;
+        this.amount = amount;
+        this.description = des;
+        this.manufacturer=man;
+        this.id_group=group;
+        this.manufacturer = "";
+        this.description ="";
 
+    }
     public Product(final int id, String title, double price, int amount){
         this.id_group=id;
         this.title = title;

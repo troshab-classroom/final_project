@@ -1,8 +1,13 @@
 package org.example;
 
-import org.example.entities.Message;
-import org.example.entities.Packet;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.example.entities.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class Processor implements Runnable{
@@ -10,7 +15,6 @@ public class Processor implements Runnable{
     private Packet packet;
     BlockingQueue<Packet> queue;
     BlockingQueue<Packet> queueResponse;
-    final static int CODE_OF_OKAY = 7;
 
     public Processor(BlockingQueue<Packet> queue, BlockingQueue<Packet> queueResponse) throws InterruptedException {
         this.packet = queue.take();
@@ -24,22 +28,229 @@ public class Processor implements Runnable{
 
     @Override
     public void run() {
+       // Packet packet = new Packet(packetFromUser);//decoding packet from USER
+
+        Warehouse.cTypes [] val = Warehouse.cTypes.values();
+        int command = packet.getBMsq().getCType();
+        Warehouse.cTypes command_type = val[command];
+
+        String message = packet.getBMsq().getMessage();
+
+        JSONObject information;
+        int success;
+
+        JSONresponse reply = new JSONresponse();
+
         try {
-            Packet response = response();
-            queueResponse.put(response);
+            switch(command_type){
+                case ADD_USER:
+                    information = new JSONObject(message);
+                    User userToAdd = new User( information.getString("login"), DigestUtils.md5Hex(information.getString("password"))
+                            ,information.getString("role"));
+                    success = CRUDstatements.insertUser(userToAdd);
+                    if(success == -1){
+                        reply.putField("This user already exists!");
+                    }
+                    else{
+                        reply.putField("User successfully added!");
+                    }
+                    break;
+                case LOGIN:
+                    information = new JSONObject(message);
+                    User userCred = new User(information.getString("login"), information.getString("password"));
+                    User user = CRUDstatements.getUserByLogin(userCred.getLogin());
+                    if(user != null){
+                        if(userCred.getPassword().equals(user.getPassword())){
+                            reply.putObject("{\"role\":\""+user.getRole()+"\"}");
+                        }
+                        else{
+                            reply.putField("Wrong login or password!");
+                        }
+                    }else{
+                        reply.putField("Wrong login or password!");
+                    }
+                    break;
+                case INSERT_PRODUCT:
+                    information = new JSONObject(message);
+                    Product product = new Product(information.getString("name"),
+                            information.getDouble("price"),information.getInt("amount"),information.getString("description"),
+                            information.getString("manufacturer"),information.getInt("group_id"));
+                    success = CRUDstatements.insertProduct(product);
+                    if(success == -1){
+                        reply.putField("Failed to add product!");
+                    }
+                    else{
+                        reply.putField("Product successfully added!");
+                    }
+                    break;
+
+                case UPDATE_PRODUCT:
+                    information = new JSONObject(message);
+                    Product product2 = new Product( information.getInt("id"),information.getString("name"),
+                            information.getDouble("price"),information.getInt("amount"),information.getString("description"),
+                            information.getString("manufacturer"),information.getInt("group_id"));
+                    success = CRUDstatements.updateProduct(product2,product2.getId_product());
+                    if(success == -1){
+                        reply.putField("Failed to update product!");
+                    }
+                    else{
+                        reply.putField( "Product successfully updated!");
+                    }
+                    break;
+
+                case DELETE_PRODUCT:
+                    int id3 = Integer.parseInt(message);
+                    success = CRUDstatements.deleteFromProduct(id3);
+                    if(success == -1){
+                        reply.putField("Failed to delete product!");
+                    }
+                    else{
+                        reply.putField("Product with ID " + success + " successfully deleted!");
+                    }
+                    break;
+
+                case GET_PRODUCT:
+                    int id4 = Integer.parseInt(message);
+                    Product product4 = CRUDstatements.getProduct(id4);
+                    if(product4 == null){
+                        reply.putField("Invalid product ID!");
+                    }
+                    else{
+                        reply.putObject(product4.toJSON().toString());
+                    }
+                    break;
+
+                case GET_LIST_PRODUCTS:
+                    information = new JSONObject(message);
+                    int page = information.getInt("page");
+                    int size = information.getInt("size");
+                    JSONObject filtr = information.getJSONObject("productFilter");
+                    ProductCriteria filter = new ProductCriteria();
+                    if(!filtr.isNull("ids")){
+                        JSONArray array = filtr.getJSONArray("ids");
+                        List<Integer> arrayList = new ArrayList<>();
+                        for(int i = 0; i < array.length(); i++){
+                            arrayList.add((Integer)(array.get(i)));
+                        }
+                        //filter.setIds(arrayList);
+                    }
+                    if(!filtr.isNull("group_id")){
+                       // filter.setGroup(filtr.getInt("group_id"));
+                    }
+                    if(!filtr.isNull("manufacturer")){
+                        //filter.setManufacturer(filtr.getString("manufacturer"));
+                    }
+                    if(!filtr.isNull("toPrice")){
+                        filter.setPriceTill(filtr.getDouble("toPrice"));
+                    }
+                    if(!filtr.isNull("fromPrice")){
+                        filter.setPriceFrom(filtr.getDouble("fromPrice"));
+                    }
+                    if(!filtr.isNull("query")){
+                        //filter.setQuery("query");
+                    }
+//                    List<Product> products = CRUDstatements.getList(page, size, filter);
+//                    if(products == null){
+//                        reply.putField("Invalid filters!");
+//                    }
+//                    else{
+//                       // reply.putObject(Product.toJSONObject(products).toString());
+//                    }
+                    break;
+
+                case GET_PRODUCTS_STATISTICS:
+//                    daoProduct = new DaoProduct("file.db");
+//                    List<ProductStatistics> productStatistics = daoProduct.getStatisticsList(Integer.parseInt(message));
+//
+//                    if(productStatistics == null){
+//                        reply.putField("Can't show statistics");
+//                    }
+//                    else{
+//                        reply.putObject(ProductStatistics.toJSONObject(productStatistics).toString());
+//                    }
+//                    break;
+
+//                case DELETE_ALL_IN_GROUP:
+//                    int id6 = Integer.parseInt(message);
+//                    success = CRUDstatements.deleteAllInGroup(id6);
+//                    if(success == 1){
+//                        reply.putField("Products in group " + id6 + " were deleted");
+//                    }
+//                    else{
+//                        reply.putField("Failed to delete group with products!");
+//                    }
+//                    break;
+
+                case INSERT_GROUP:
+                    information = new JSONObject(message);
+                    Group group = new Group( information.getInt("id"),information.getString("name")
+                            ,information.getString("description"));
+                    success = CRUDstatements.insertGroup(group);
+                    if(success == -1){
+                        reply.putField("ID and name should be unique!");
+                    }
+                    else{
+                        reply.putField("Group successfully added!");
+                    }
+                    break;
+                case DELETE_GROUP:
+                    int group_id = Integer.parseInt(message);
+                    success = CRUDstatements.deleteFromProduct(group_id);
+                    if(success == -1){
+                        reply.putField("Failed to delete group!");
+                    }
+                    else{
+                        reply.putField("Group with ID "+success + " successfully deleted!");
+                    }
+                    break;
+                case UPDATE_GROUP:
+                    information = new JSONObject(message);
+                    Group group1 = new Group( information.getInt("id"),information.getString("name")
+                            ,information.getString("description"));
+//                Group getByName = daoGroup.getGroupByName(group1.getName());
+                    success = CRUDstatements.updateGroup(group1,group1.getId_group());
+                    if(success == -1){
+                        reply.putField("Invalid name of group!");
+                    }
+                    else{
+                        reply.putField("Group successfully updated!");
+                    }
+                    break;
+                case GET_GROUP:
+                    int group_id1 = Integer.parseInt(message);
+                    Group resGroup = CRUDstatements.getGroup(group_id1);
+                    if(resGroup == null){
+                        reply.putField("No such group!");
+                    }
+                    else{
+                        reply.putObject(resGroup.toJSON().toString());
+                    }
+                    break;
+//                case GET_LIST_GROUPS:
+//                    List<Group> groups = CRUDstatements.getAll();
+//                    if(groups == null){
+//                        reply.putField("Failed to get groups!");
+//                    }
+//                    else{
+//                        reply.putObject(Group.toJSONObject(groups).toString());
+//                    }
+//                    break;
+//                default:
+//                    reply.putField("INVALID COMMAND");
+            }
+
+            System.out.println("Message from client: " +packet.getBMsq().getMessage()
+                    + "\t\t\t and with packet ID: " + packet.getBPktId());
+
+            Message answerMessage = new Message(packet.getBMsq().getCType(), packet.getBMsq().getBUserId(), reply.toString());
+            Packet answerPacket = new Packet(packet.getBSrc(), packet.getBPktId(), answerMessage);
+            queueResponse.put(answerPacket);
             Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Packet response(){
-
-        Message answer = new Message(CODE_OF_OKAY, packet.getBMsq().getBUserId(),"Ok");
-        return new Packet((byte)1,
-                packet.getBPktId(),
-                answer);
-    }
 
     public static void shutdown(){
         try{

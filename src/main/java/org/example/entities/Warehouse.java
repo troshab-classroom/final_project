@@ -7,14 +7,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 public class Warehouse {
     public enum cTypes {
-        GET_PRODUCT_AMOUNT,
-        DISPOSE_PRODUCT,
-        ADD_PRODUCT,
-        ADD_PRODUCT_GROUP,
-        ADD_PRODUCT_TITLE_TO_GROUP,
-        SET_PRODUCT_PRICE,
-        EXCEPTION_FROM_SERVER,
-        OK
+        INSERT_PRODUCT,
+        DELETE_PRODUCT,
+        UPDATE_PRODUCT,
+        GET_PRODUCT,
+        GET_LIST_PRODUCTS,
+        GET_PRODUCTS_STATISTICS,
+        DELETE_ALL_IN_GROUP, // видалити всі продукти з даної групи
+        INSERT_GROUP,
+        DELETE_GROUP, // видалити всю групу і її рядочки
+        UPDATE_GROUP,
+        GET_GROUP,
+        GET_LIST_GROUPS,
+        LOGIN,
+        ADD_USER
     }
     private ConcurrentHashMap<String, ArrayList<Product>> warehouse;
     Warehouse(){
