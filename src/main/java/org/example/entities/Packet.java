@@ -43,9 +43,9 @@ public class Packet {
         Byte expectedBMagic = buffer.get();
         System.out.println("Magic, mysterious byte: " + bMagic);
         //magic byte check
-        if(!expectedBMagic.equals(bMagic)){
-            throw new Exception("Unexpected bMagic");
-        }
+//        if(!expectedBMagic.equals(bMagic)){
+//            throw new Exception("Unexpected bMagic");
+//        }
         bSrc = buffer.get();
         System.out.println("Client: "+bSrc);
         bPktId = UnsignedLong.fromLongBits(buffer.getLong());

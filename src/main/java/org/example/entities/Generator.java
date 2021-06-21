@@ -7,7 +7,7 @@ import org.example.entities.Warehouse;
 import java.util.Random;
 
 public class Generator {
-    private static UnsignedLong packetId = UnsignedLong.fromLongBits(0L);
+    public static UnsignedLong packetId = UnsignedLong.fromLongBits(0L);
     public static Packet generate() {
         Random random = new Random();
         int command = random.nextInt(Warehouse.cTypes.values().length-1);

@@ -26,15 +26,15 @@ public class StoreClientTCP extends Thread {
         in = clientSocket.getInputStream();
     }
 
-    public String sendMessage(Packet p) throws Exception {
+    public Packet sendMessage(Packet p) throws Exception {
         out.write(p.toBytes());
         byte[] res = new byte[Packet.MAX_SIZE];
         in.read(res);
+        System.out.println(res);
         Packet packet = new Packet(res);
-        String resp = packet.getBMsq().getMessage();
-        return resp;
+        return packet;
     }
-    public String reconnect(String ip, Packet pa, int reconnect_num) {
+    public Packet reconnect(String ip, Packet pa, int reconnect_num) {
         try {
             final Socket socket = new Socket(ip, port);
             socket.setSoTimeout(3_000*reconnect_num);
@@ -44,7 +44,7 @@ public class StoreClientTCP extends Thread {
             if(reconnect_num == RECONNECT_MAX){
                 NUMBER_DEAD.incrementAndGet();
                 System.out.println("Server is dead. Number of dead connections: "+ NUMBER_DEAD);
-                return "";
+                return null;
             }
             else{
                 int reconnect = reconnect_num + 1;

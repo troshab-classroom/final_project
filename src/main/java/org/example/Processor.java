@@ -40,7 +40,7 @@ public class Processor implements Runnable{
         int success;
 
         JSONresponse reply = new JSONresponse();
-
+        System.out.println(command_type);
         try {
             switch(command_type){
                 case ADD_USER:

@@ -1,6 +1,7 @@
 package org.example.TCP;
 import com.google.common.primitives.UnsignedLong;
 import lombok.SneakyThrows;
+import org.example.DataBase;
 import org.example.entities.Message;
 import org.example.entities.Packet;
 import org.example.Receiver;
@@ -65,11 +66,12 @@ class StoreServerTCP {
                     out = clientSocket.getOutputStream();
                     in = clientSocket.getInputStream();
                     System.out.println(in.available());
-                    while (in.available() == 0) {
+                    while (in.available()>=0) {
                         byte[] b = new byte[Packet.MAX_SIZE];
                         in.read(b);
                         BlockingQueue<Packet> queue = new LinkedBlockingQueue<>(5);
                         Packet p = new Packet(b);
+                        System.out.println(p);
                         if (p.getBSrc() == 0) {
                             out.write(new Packet((byte) 0, UnsignedLong.fromLongBits(7L), new Message(1, 2, "bye")).encodePackage());
                             break;
@@ -79,7 +81,9 @@ class StoreServerTCP {
                         Receiver r1 = new Receiver(queue);
                         new Thread(r1).start();
                         r1.connect();
-                        out.write(Sender.queue.take().toBytes());
+                        Packet pac = Sender.queue.take();
+                        System.out.println(pac);
+                        out.write(pac.toBytes());
                     }
                     in.close();
                     out.close();
@@ -89,6 +93,7 @@ class StoreServerTCP {
         }
 
         public static void main(String[] args) throws IOException {
+            DataBase.connect();
             StoreServerTCP server = new StoreServerTCP();
             server.start(SERVER_PORT);
         }
