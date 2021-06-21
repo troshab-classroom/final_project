@@ -10,6 +10,7 @@
         <module name="practice5" />
         <module name="practice4" />
         <module name="practice3" />
+        <module name="final_project" />
       </profile>
     </annotationProcessing>
   </component>

@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import lombok.Data;
+import org.json.JSONObject;
 
 @Data
 public class User {
@@ -15,6 +16,7 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
     public User(String login, String password)
     {
         this.login = login;
@@ -26,6 +28,12 @@ public class User {
         this.login = login;
         this.password = password;
         this.role = role;
+    }
+
+    public JSONObject toJSON(){
+
+        JSONObject json = new JSONObject("{"+"\"login\":\""+login+"\", \"password\":\""+password+"\"}");
+        return json;
     }
 
 }

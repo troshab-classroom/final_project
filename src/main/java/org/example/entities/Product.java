@@ -28,7 +28,9 @@ public class Product {
 
         return json;
     }
-    public Product(){
+    public Product(String title, double price){
+        this.title = title;
+        this.price = price;
     }
     public Product(String title, double price, int amount, String man, String des, int id_group){
         this.title = title;

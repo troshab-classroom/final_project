@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="476.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.NewProductController">
+   <children>
+      <TextField fx:id="nameField" alignment="CENTER" layoutX="222.0" layoutY="58.0" />
+      <TextField fx:id="priceField" layoutX="222.0" layoutY="122.0" />
+      <TextField fx:id="manufField" layoutX="222.0" layoutY="192.0" />
+      <TextField fx:id="descrField" layoutX="222.0" layoutY="256.0" />
+      <TextField fx:id="amountField" layoutX="222.0" layoutY="315.0" />
+      <Label layoutX="272.0" layoutY="32.0" text="Name">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="272.0" layoutY="96.0" prefHeight="26.0" prefWidth="48.0" text="Price">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="244.0" layoutY="166.0" prefHeight="26.0" prefWidth="120.0" text="Manufacturer">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font></Label>
+      <Label layoutX="250.0" layoutY="230.0" prefHeight="26.0" prefWidth="100.0" text="Description">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="263.0" layoutY="289.0" text="Amount">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="275.0" layoutY="349.0" text="Group">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <ChoiceBox layoutX="221.0" layoutY="375.0" prefWidth="150.0" />
+      <Button layoutX="453.0" layoutY="400.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="120.0" text="Add product">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label fx:id="statusLabel" layoutX="228.0" layoutY="410.0" prefHeight="33.0" prefWidth="135.0">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
