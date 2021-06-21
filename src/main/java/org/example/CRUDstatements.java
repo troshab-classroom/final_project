@@ -287,9 +287,10 @@ while(resultSet.next()) {
             System.out.println(e.getMessage());
         }
     }
-    public static void deleteFromGroup(int id) {
+    public static int deleteFromGroup(int id) {
         String sqlQuery = "DELETE FROM " + group + " WHERE id_group = ?";
-
+        System.out.println("here");
+        System.out.println(id);
         try {
             PreparedStatement preparedStatement = DataBase.connection.prepareStatement(sqlQuery);
 
@@ -299,8 +300,10 @@ while(resultSet.next()) {
 
             System.out.println("Deleted " + id);
             System.out.println();
+            return id;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return -1;
         }
     }
 

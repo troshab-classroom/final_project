@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="385.0" prefWidth="573.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.GroupView">
+   <children>
+      <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <TabPane prefHeight="38.0" prefWidth="638.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="groups_tab" text="Groups" />
+          <Tab fx:id="products_tab" onSelectionChanged="#productsChange" text="Products">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab fx:id="stats" onSelectionChanged="#statisticsChanged" text="Statistics" />
+        </tabs>
+      </TabPane>
+  <AnchorPane layoutX="37.0" layoutY="48.0" minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="61.0">
+         <children>
+            <Button fx:id="delete" layoutX="36.0" layoutY="-12.0" mnemonicParsing="false" onAction="#deleteGroup" text="Delete" />
+         </children></AnchorPane>
+      <TableView fx:id="groupsTable" layoutY="115.0" prefHeight="236.0" prefWidth="638.0">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="96.00001525878906" text="ID" />
+          <TableColumn fx:id="nameCo" minWidth="0.0" prefWidth="168.0" text="Name" />
+            <TableColumn fx:id="desc" prefWidth="376.0" text="Description" />
+        </columns>
+      </TableView>
+      <Button fx:id="update" layoutX="136.0" layoutY="36.0" mnemonicParsing="false" onAction="#updateGroup" text="Update" />
+      <Button fx:id="create" layoutX="12.0" layoutY="35.0" mnemonicParsing="false" onAction="#createGroup" text="Create" />
+      <Label layoutX="15.0" layoutY="65.0" text="Name" />
+      <TextField fx:id="name" layoutX="14.0" layoutY="82.0" />
+      <Button fx:id="findButton" layoutX="174.0" layoutY="82.0" mnemonicParsing="false" onAction="#find2" text="Find" />
+   </children>
+</AnchorPane>

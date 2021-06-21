@@ -6,7 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -195,7 +197,7 @@ public class Processor implements Runnable{
                     break;
                 case DELETE_GROUP:
                     int group_id = Integer.parseInt(message);
-                    success = CRUDstatements.deleteFromProduct(group_id);
+                    success = CRUDstatements.deleteFromGroup(group_id);
                     if(success == -1){
                         reply.putField("Failed to delete group!");
                     }
@@ -226,17 +228,24 @@ public class Processor implements Runnable{
                         reply.putObject(resGroup.toJSON().toString());
                     }
                     break;
-//                case GET_LIST_GROUPS:
-//                    List<Group> groups = CRUDstatements.getAll();
-//                    if(groups == null){
-//                        reply.putField("Failed to get groups!");
-//                    }
-//                    else{
-//                        reply.putObject(Group.toJSONObject(groups).toString());
-//                    }
-//                    break;
-//                default:
-//                    reply.putField("INVALID COMMAND");
+                case GET_LIST_GROUPS:
+                    ResultSet res = CRUDstatements.selectAllFromGroup();
+                    final List<Group> groups = new ArrayList<>();
+                    while (res.next()) {
+                        groups.add(new Group(res.getInt("id_group"),
+                                res.getString("name_group"),
+                                res.getString("description")));
+                    }
+                    System.out.println(Arrays.toString(groups.toArray()));
+                    if(groups == null){
+                        reply.putField("Failed to get groups!");
+                    }
+                    else{
+                        reply.putObject(Group.toJSONObject(groups).toString());
+                    }
+                    break;
+                default:
+                    reply.putField("INVALID COMMAND");
             }
 
             System.out.println("Message from client: " +packet.getBMsq().getMessage()
@@ -245,7 +254,7 @@ public class Processor implements Runnable{
             Message answerMessage = new Message(packet.getBMsq().getCType(), packet.getBMsq().getBUserId(), reply.toString());
             Packet answerPacket = new Packet(packet.getBSrc(), packet.getBPktId(), answerMessage);
             queueResponse.put(answerPacket);
-            Thread.sleep(3000);
+            //Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

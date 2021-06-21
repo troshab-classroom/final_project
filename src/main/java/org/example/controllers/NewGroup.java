@@ -43,7 +43,7 @@ public class NewGroup {
                 Message msg = new Message(INSERT_GROUP.ordinal(), 1, group.toJSON().toString());
 
                 Packet packet = new Packet((byte) 1, Generator.packetId, msg);
-                Generator.packetId.plus(UnsignedLong.valueOf(1));
+                Generator.packetId =Generator.packetId.plus(UnsignedLong.valueOf(1));
                 StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
                 //Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
                 Thread t1 = new Thread(client1);
