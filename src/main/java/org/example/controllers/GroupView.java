@@ -21,10 +21,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static org.example.entities.Warehouse.cTypes.DELETE_GROUP;
 import static org.example.entities.Warehouse.cTypes.GET_LIST_GROUPS;
 
 public class GroupView {
@@ -57,7 +59,39 @@ public class GroupView {
 
     @FXML
     void deleteGroup(ActionEvent event) throws Exception {
+        Group group = groupsTable.getSelectionModel().getSelectedItem();
 
+        if(group != null) {
+            Message msg = new Message(DELETE_GROUP.ordinal(), 1, group.getId_group()+"");
+            Packet packet = new Packet((byte) 1, Generator.packetId, msg);
+            Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));
+            StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
+            Thread t1 = new Thread(client1);
+            t1.start();
+            t1.join();
+            System.out.println(packet);
+            packet.encodePackage();
+            System.out.println(packet);
+            Packet receivedPacket = client1.sendMessage(packet);
+            int command = receivedPacket.getBMsq().getCType();
+            Warehouse.cTypes[] val = Warehouse.cTypes.values();
+            Warehouse.cTypes command_type = val[command];
+            if (command_type == DELETE_GROUP) {
+                String message = receivedPacket.getBMsq().getMessage();
+                JSONObject information = new JSONObject(message);
+                try {
+                    System.out.println(information.getString("message"));
+                    //statusLabel.setText(information.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                statusLabel.setText("Can't delete group.");
+            }
+            resetTable();
+        }else{
+            statusLabel.setText("Choose group to delete!");
+        }
     }
     @FXML
     void updateGroup(ActionEvent event) throws Exception {

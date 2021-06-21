@@ -197,7 +197,7 @@ public class Processor implements Runnable{
                     break;
                 case DELETE_GROUP:
                     int group_id = Integer.parseInt(message);
-                    success = CRUDstatements.deleteFromProduct(group_id);
+                    success = CRUDstatements.deleteFromGroup(group_id);
                     if(success == -1){
                         reply.putField("Failed to delete group!");
                     }
@@ -254,7 +254,7 @@ public class Processor implements Runnable{
             Message answerMessage = new Message(packet.getBMsq().getCType(), packet.getBMsq().getBUserId(), reply.toString());
             Packet answerPacket = new Packet(packet.getBSrc(), packet.getBPktId(), answerMessage);
             queueResponse.put(answerPacket);
-            Thread.sleep(3000);
+            //Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }
