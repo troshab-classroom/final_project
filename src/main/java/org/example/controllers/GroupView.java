@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -206,5 +207,20 @@ public class GroupView {
         } else {
             //statusLabel.setText("Failed to get groups!");
         }
+    }
+    @FXML
+    private void productsChange()
+    {
+
+    }
+    //statisticsChanged
+    @FXML
+    private void statisticsChanged() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) create.getScene().getWindow();
+        URL url = new File("src/main/java/org/example/ui/stats.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 }

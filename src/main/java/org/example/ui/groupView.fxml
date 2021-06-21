@@ -14,12 +14,12 @@
       <TabPane prefHeight="38.0" prefWidth="638.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="groups_tab" text="Groups" />
-          <Tab fx:id="products_tab" text="Products">
+          <Tab fx:id="products_tab" onSelectionChanged="#productsChange" text="Products">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
-            <Tab fx:id="stats" text="Statistics" />
+            <Tab fx:id="stats" onSelectionChanged="#statisticsChanged" text="Statistics" />
         </tabs>
       </TabPane>
   <AnchorPane layoutX="37.0" layoutY="48.0" minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="61.0">

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="385.0" prefWidth="573.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.Statistics">
+   <children>
+      <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TabPane fx:id="tabPane" prefHeight="38.0" prefWidth="638.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab fx:id="groups_tab"  onSelectionChanged="#groupChanged" text="Groups" />
+            <Tab fx:id="products_tab" onSelectionChanged="#productsChange" text="Products">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="stats" text="Statistics" />
+         </tabs>
+      </TabPane>
+      <Label layoutX="21.0" layoutY="41.0" text="Get statistics for group:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="64.0" prefHeight="30.0" prefWidth="206.0" text="Total cost of products in group: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ChoiceBox layoutX="259.0" layoutY="39.0" prefWidth="150.0" />
+      <TableView layoutY="93.0" prefHeight="243.0" prefWidth="644.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="ID" />
+          <TableColumn prefWidth="75.0" text="Name" />
+            <TableColumn prefWidth="95.0" text="Price" />
+            <TableColumn prefWidth="81.0" text="Amount" />
+            <TableColumn prefWidth="94.0" text="Manufacturer" />
+            <TableColumn prefWidth="221.0" text="Description" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
