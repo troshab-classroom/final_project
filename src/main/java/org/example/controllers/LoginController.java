@@ -25,6 +25,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import static org.example.entities.Warehouse.cTypes.LOGIN;
+//TODO: statusLabel,
+// possibility to see password
+// normal size
+// sign up button
 
 public class LoginController {
     @FXML
@@ -43,24 +47,24 @@ public class LoginController {
     private Label statusLabel;
 
     public void processLogin() throws Exception {
-        statusLabel.setText("");
+        //statusLabel.setText("");
 
         if (loginField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            statusLabel.setText("Please, enter login and password");
+            //statusLabel.setText("Please, enter login and password");
         } else {
-
+            System.out.println(passwordField.getText());
+            System.out.println(DigestUtils.md5Hex(passwordField.getText()));
+            System.out.println(DigestUtils.md5Hex("password1"));
             User user = new User(loginField.getText(), DigestUtils.md5Hex(passwordField.getText()));
             Message msg = new Message(LOGIN.ordinal(), 1, user.toJSON().toString());
 
             Packet packet = new Packet((byte) 1, Generator.packetId, msg);
-            Generator.packetId.plus(UnsignedLong.valueOf(1));
+            Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
             Thread t1 = new Thread(client1);
             t1.start();
-            t1.join();
-            System.out.println(packet);
+            //t1.join();
             packet.encodePackage();
-            System.out.println(packet);
             Packet receivedPacket = client1.sendMessage(packet);
             int command = receivedPacket.getBMsq().getCType();
             Warehouse.cTypes[] val = Warehouse.cTypes.values();
@@ -73,29 +77,26 @@ public class LoginController {
                 JSONObject information = new JSONObject(message);
 
                 try {
-                    statusLabel.setText(information.getString("message"));
-                    if(information.getString("message").equals("Product successfully added!"))
-                    {
-                        Stage stage = (Stage) loginField.getScene().getWindow();
-
-                        stage.close();
-                    }
+                    JSONObject object = information.getJSONObject("object");
+                    GlobalContext.role = object.getString("role");
+                    loggedIn = true;
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    System.out.println(information.getString("message"));
+                    //statusLabel.setText(information.getString("message"));
                 }
 
             } else {
-                statusLabel.setText("Failed to log in.");
+                //statusLabel.setText("Failed to log in.");
             }
 
-//            if (loggedIn) {
-//                FXMLLoader loader = new FXMLLoader();
-//                Stage stage = (Stage) loginField.getScene().getWindow();
-//                URL url = new File("src/main/java/client_server/client/views/products_list.fxml").toURI().toURL();
-//                Parent root = FXMLLoader.load(url);
-//                Scene scene = new Scene(root);
-//                stage.setScene(scene);
-//            }
+            if (loggedIn) {
+                FXMLLoader loader = new FXMLLoader();
+                Stage stage = (Stage) loginField.getScene().getWindow();
+                URL url = new File("src/main/java/org/example/ui/groupView.fxml").toURI().toURL();
+                Parent root = FXMLLoader.load(url);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+            }
         }
     }
 

@@ -30,7 +30,6 @@ public class StoreClientTCP extends Thread {
         out.write(p.toBytes());
         byte[] res = new byte[Packet.MAX_SIZE];
         in.read(res);
-        System.out.println(res);
         Packet packet = new Packet(res);
         return packet;
     }
