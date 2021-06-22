@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Statistics {
@@ -24,25 +25,31 @@ public class Statistics {
     private Tab stats;
 
     @FXML
-    private void productsChange()
-    {
-
+    private void productsChange() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        URL url = new File("src/main/java/org/example/ui/ProductListView.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
     //statisticsChanged
     @FXML
     private void groupChanged() throws IOException {
-        if(counter!=0) {
+        try{
             FXMLLoader loader = new FXMLLoader();
             Stage stage = (Stage) tabPane.getScene().getWindow();
             URL url = new File("src/main/java/org/example/ui/groupView.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Scene scene = new Scene(root);
             stage.setScene(scene);
-        }
-        counter++;
+    }catch(Exception e)
+    {
+    }
     }
     @FXML
     void initialize() throws Exception {
+        counter=0;
 //        idCol.setCellValueFactory(new PropertyValueFactory<>("id_group"));
 //        desc.setCellValueFactory(new PropertyValueFactory<>("description"));
 //        nameCo.setCellValueFactory(new PropertyValueFactory<>("name"));

@@ -209,9 +209,13 @@ public class GroupView {
         }
     }
     @FXML
-    private void productsChange()
-    {
-
+    private void productsChange() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) update.getScene().getWindow();
+        URL url = new File("src/main/java/org/example/ui/ProductListView.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
     //statisticsChanged
     @FXML
