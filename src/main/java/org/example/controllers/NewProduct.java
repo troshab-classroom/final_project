@@ -90,7 +90,7 @@ public class NewProduct {
                 Warehouse.cTypes command_type = val[command];
 
                 if (command_type == INSERT_PRODUCT) {
-                    Message message = new Message(receivedPacket.getBMsq().getMessage());
+                    String message = receivedPacket.getBMsq().getMessage();
                     JSONObject information = new JSONObject(message);
                     try {
                         statusLabel.setText(information.getString("message"));

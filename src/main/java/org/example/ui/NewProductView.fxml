@@ -46,7 +46,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <Label fx:id="statusLabel" layoutX="228.0" layoutY="410.0" prefHeight="33.0" prefWidth="135.0">
+      <Label fx:id="statusLabel" layoutX="125.0" layoutY="405.0" prefHeight="33.0" prefWidth="322.0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
