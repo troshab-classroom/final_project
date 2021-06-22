@@ -193,6 +193,28 @@ while(resultSet.next()) {
         }
         return -1;
     }
+    public static ResultSet getProduct(String name) {
+        String sqlQuery = String.format("SELECT id FROM %s WHERE name_product like '%"+name+"%'", product);
+
+        try {
+            Statement statement  = DataBase.connection.createStatement();
+            return statement.executeQuery(sqlQuery);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+    public static ResultSet getGroup(String name) {
+        System.out.println(name);
+        String sqlQuery = "SELECT * FROM " +group+" WHERE name_group like '%%"+name+"%%'";
+        try {
+            Statement statement  = DataBase.connection.createStatement();
+            return statement.executeQuery(sqlQuery);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
     public static User getUserByLogin(final String login) {
         try (final PreparedStatement insertStatement = DataBase.connection.prepareStatement("select * from 'users' where login = ?")) {
             insertStatement.setString(1, login);

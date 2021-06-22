@@ -11,7 +11,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.example.GlobalContext;
 import org.example.TCP.StoreClientTCP;
 import org.example.entities.*;
 import org.json.JSONException;
@@ -21,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import static org.example.entities.Warehouse.cTypes.LOGIN;
@@ -78,7 +76,7 @@ public class LoginController {
 
                 try {
                     JSONObject object = information.getJSONObject("object");
-                    GlobalContext.role = object.getString("role");
+                    //GlobalContext.role = object.getString("role");
                     loggedIn = true;
                 } catch (JSONException e) {
                     System.out.println(information.getString("message"));
