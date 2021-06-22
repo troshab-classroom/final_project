@@ -1,25 +1,19 @@
 package org.example.controllers;
 
 import com.google.common.primitives.UnsignedLong;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.web.HTMLEditorSkin;
 import javafx.stage.Stage;
-import org.example.GlobalContext;
 import org.example.TCP.StoreClientTCP;
 import org.example.entities.*;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import static org.example.entities.Warehouse.cTypes.INSERT_PRODUCT;

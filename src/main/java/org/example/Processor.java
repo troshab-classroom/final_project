@@ -218,13 +218,19 @@ public class Processor implements Runnable{
                     }
                     break;
                 case GET_GROUP:
-                    int group_id1 = Integer.parseInt(message);
-                    Group resGroup = CRUDstatements.getGroup(group_id1);
-                    if(resGroup == null){
-                        reply.putField("No such group!");
+                    System.out.println(message);
+                    ResultSet result = CRUDstatements.getGroup(message);
+                    final List<Group> groupsRes = new ArrayList<>();
+                    while (result.next()) {
+                        groupsRes.add(new Group(result.getInt("id_group"),
+                                result.getString("name_group"),
+                                result.getString("description")));
+                    }
+                    if(groupsRes == null){
+                        reply.putField("Failed to get groups!");
                     }
                     else{
-                        reply.putObject(resGroup.toJSON().toString());
+                        reply.putObject(Group.toJSONObject(groupsRes).toString());
                     }
                     break;
                 case GET_LIST_GROUPS:

@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static org.example.entities.Warehouse.cTypes.DELETE_GROUP;
-import static org.example.entities.Warehouse.cTypes.GET_LIST_GROUPS;
+import static org.example.entities.Warehouse.cTypes.*;
 
 public class GroupView {
     @FXML
@@ -57,6 +56,8 @@ public class GroupView {
     private TableColumn nameCo;
     @FXML
     private TableColumn desc;
+    @FXML
+    private TextField name;
 
     @FXML
     void deleteGroup(ActionEvent event) throws Exception {
@@ -129,7 +130,45 @@ public class GroupView {
     }
     @FXML
     void find2(ActionEvent event) throws Exception {
+        System.out.println(name.getText());
+        Message msg = new Message(GET_GROUP.ordinal(), 1, name.getText());
+        Packet packet = new Packet((byte) 1, Generator.packetId, msg);
+        Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));
+        StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
+        Thread t1 = new Thread(client1);
+        t1.start();
+        //t1.join();
+        packet.encodePackage();
+        Packet receivedPacket = client1.sendMessage(packet);
+        int command = receivedPacket.getBMsq().getCType();
+        Warehouse.cTypes[] val = Warehouse.cTypes.values();
+        Warehouse.cTypes command_type = val[command];
 
+        if (command_type == GET_GROUP) {
+            String message = receivedPacket.getBMsq().getMessage();
+            JSONObject information = new JSONObject(message);
+
+            try {
+                JSONObject list = information.getJSONObject("object");
+                JSONArray array = list.getJSONArray("list");
+
+                List<Group> groups = new ArrayList<>();
+
+                for (int i = 0; i < array.length(); i++) {
+                    groups.add(new Group(array.getJSONObject(i)));
+                    System.out.println(groups.get(i));
+                }
+
+                groupsTable.getItems().clear();
+                groupsTable.getItems().addAll(groups);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                //statusLabel.setText("Failed to get groups!");
+            }
+        } else {
+            //statusLabel.setText("Failed to get groups!");
+        }
     }
     @FXML
     void initialize() throws Exception {
