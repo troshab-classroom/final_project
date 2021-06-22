@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="476.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.NewProductController">
+<AnchorPane prefHeight="476.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.NewProduct">
    <children>
       <TextField fx:id="nameField" alignment="CENTER" layoutX="222.0" layoutY="58.0" />
       <TextField fx:id="priceField" layoutX="222.0" layoutY="122.0" />
@@ -40,8 +40,8 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="221.0" layoutY="375.0" prefWidth="150.0" />
-      <Button layoutX="453.0" layoutY="400.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="120.0" text="Add product">
+      <ChoiceBox fx:id="groupChoice" layoutX="221.0" layoutY="375.0" prefWidth="150.0" />
+      <Button fx:id="productAdd" layoutX="453.0" layoutY="400.0" mnemonicParsing="false" onAction="#saveNewProduct" prefHeight="44.0" prefWidth="120.0" text="Add product">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

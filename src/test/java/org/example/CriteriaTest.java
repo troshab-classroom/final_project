@@ -33,26 +33,26 @@ public class CriteriaTest {
         assertThat(CRUDstatements.getByCriteria(pc)).containsExactlyElementsOf(expectedProducts);
         }
 
-        private static Stream<Arguments> dataProvider(){
-            return Stream.of(
-                    Arguments.of(
-                            new ProductCriteria("prod", null,null,null,null),
-                            List.of(new Product("prod1", 38 , 34, 1),new Product("prod2",124,7,2))
-                    ),
-                    Arguments.of(
-                            new ProductCriteria("prod", 35.0,null,null,null),
-                            List.of(new Product("prod1", 38 , 34, 1),new Product("prod2",124,7,2))
-                    ),
-                    Arguments.of(
-                            new ProductCriteria(null, 100.0,null,null,null),
-                            List.of(new Product("prod2",124,7,2),new Product("other",445,15,3))
-                    ),
-                    Arguments.of(
-                            new ProductCriteria(null, null,null,30.0, null),
-                            List.of(new Product("prod1", 38 , 34, 1))
-                    )
-            );
-        }
+//        private static Stream<Arguments> dataProvider(){
+//            return Stream.of(
+//                    Arguments.of(
+//                            new ProductCriteria("prod", null,null,null,null),
+//                            List.of(new Product("prod1", 38 , 34, 1),new Product("prod2",124,7,2))
+//                    ),
+//                    Arguments.of(
+//                            new ProductCriteria("prod", 35.0,null,null,null),
+//                            List.of(new Product("prod1", 38 , 34, 1),new Product("prod2",124,7,2))
+//                    ),
+//                    Arguments.of(
+//                            new ProductCriteria(null, 100.0,null,null,null),
+//                            List.of(new Product("prod2",124,7,2),new Product("other",445,15,3))
+//                    ),
+//                    Arguments.of(
+//                            new ProductCriteria(null, null,null,30.0, null),
+//                            List.of(new Product("prod1", 38 , 34, 1))
+//                    )
+//            );
+//        }
 
 
 
