@@ -19,6 +19,11 @@ public class Message {
         this.bUserId = bUserId;
         this.message = message;
     }
+
+    public Message(String message) {
+        this.message=message;
+    }
+
     public int getMessageLen()
     {
         return message.length();

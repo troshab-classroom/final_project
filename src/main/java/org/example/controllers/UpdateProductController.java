@@ -44,7 +44,7 @@ public class UpdateProductController {
     private Label statusLabel;
 
     @FXML
-    private ChoiceBox<Group> groupChoice;
+    private ChoiceBox<String> groupChoice;
 
     @FXML
     void createProduct(ActionEvent event) throws Exception {
@@ -99,10 +99,10 @@ public class UpdateProductController {
     public void initData(Product prod){
         //id=group.getId_group();
         nameField.setText(prod.getTitle());
-        priceField.setText(Double. toString(prod.getPrice()));
+        priceField.setText(Double.toString(prod.getPrice()));
         amountField.setText(Integer.toString(prod.getAmount()));
         manufField.setText(prod.getManufacturer());
         descrField.setText(prod.getDescription());
-      //  groupChoice.setValue(prod.getId_group());
+        groupChoice.setValue(Integer.toString(prod.getId_group()));
     }
 }
