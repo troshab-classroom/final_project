@@ -130,7 +130,6 @@ public class GroupView {
     }
     @FXML
     void find2(ActionEvent event) throws Exception {
-        System.out.println(name.getText());
         Message msg = new Message(GET_GROUP.ordinal(), 1, name.getText());
         Packet packet = new Packet((byte) 1, Generator.packetId, msg);
         Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));

@@ -205,7 +205,6 @@ while(resultSet.next()) {
         return null;
     }
     public static ResultSet getGroup(String name) {
-        System.out.println(name);
         String sqlQuery = "SELECT * FROM " +group+" WHERE name_group like '%%"+name+"%%'";
         try {
             Statement statement  = DataBase.connection.createStatement();
@@ -348,7 +347,7 @@ while(resultSet.next()) {
     public static List<Product> getByCriteria(ProductCriteria criteria){
 
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM product where ");
+        sb.append("SELECT * FROM product INNER JOIN group_product where ");
         if(criteria.getTitle()!=null){
             sb.append("name_product like '%").append(criteria.getTitle()).append("%' and ");
         }
@@ -366,11 +365,15 @@ while(resultSet.next()) {
         if(criteria.getAmountFrom()!=null){
             sb.append("amount_store >= ").append(criteria.getAmountFrom()).append(" and ");
         }
-
-//        if(criteria.getGroup_name()!=null){
-//            sb.append("id_group == ").append(getIdGroup(criteria.getGroup_name())).append(" and ");
-//        }
-
+        if(criteria.getGroup_name()!=null){
+            sb.append("name_group like %'").append(getIdGroup(criteria.getGroup_name())).append("%' and ");
+        }
+        if(criteria.getManufacturer()!=null){
+            sb.append("manufacturer like %'").append(getIdGroup(criteria.getManufacturer())).append("%' and ");
+        }
+        if(criteria.getDescription()!=null){
+            sb.append("description like %'").append(getIdGroup(criteria.getDescription())).append("%' and ");
+        }
         sb.append(" 1=1 ");
         try(
                 Statement st = DataBase.connection.createStatement();
