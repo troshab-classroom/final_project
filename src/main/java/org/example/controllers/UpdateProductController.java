@@ -103,6 +103,6 @@ public class UpdateProductController {
         amountField.setText(Integer.toString(prod.getAmount()));
         manufField.setText(prod.getManufacturer());
         descrField.setText(prod.getDescription());
-        groupChoice.setValue(prod.getId_group());
+      //  groupChoice.setValue(prod.getId_group());
     }
 }

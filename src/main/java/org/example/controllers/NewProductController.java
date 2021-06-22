@@ -47,9 +47,8 @@ public class NewProductController {
     private ChoiceBox<Group> groupChoice;
 
 
-
     @FXML
-    void addProduct(ActionEvent event) throws Exception {
+   public void addProduct(ActionEvent event) throws Exception {
         if(nameField.getText().isEmpty() || descrField.getText().isEmpty()||priceField.getText().isEmpty()||manufField.getText().isEmpty()||amountField.getText().isEmpty()) {
             statusLabel.setText("Fill out all fields before adding.");
         }else{
@@ -89,8 +88,6 @@ public class NewProductController {
             }
         }
     }
-
-
 
 
 
