@@ -2,48 +2,24 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="387.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ProductListController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ProductListController">
    <children>
-      <AnchorPane prefHeight="387.0" prefWidth="603.0">
-         <children>
-            <TabPane layoutX="-1.0" prefHeight="31.0" prefWidth="603.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Groups">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-                <Tab text="Products">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-                  <Tab text="Statistics">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-             <TableView fx:id="groupsTable" layoutY="143.0" prefHeight="246.0" prefWidth="638.0">
-                 <columns>
-                     <TableColumn fx:id="idCol" prefWidth="39.666688323020935" text="ID" />
-                     <TableColumn fx:id="nameCo" minWidth="0.0" prefWidth="75.99999618530273" text="Name" />
-                     <TableColumn fx:id="desc" prefWidth="85.00000762939453" text="Description" />
-                  <TableColumn prefWidth="87.66667175292969" text="Price" />
-                  <TableColumn prefWidth="102.33331298828125" text="Manufacturer" />
-                  <TableColumn minWidth="9.33331298828125" prefWidth="83.33331298828125" text="Description" />
-                  <TableColumn minWidth="0.0" prefWidth="85.00003051757812" text="Amount" />
-                  <TableColumn prefWidth="76.33331298828125" text="Group" />
-                 </columns>
-             </TableView>
-            <Button fx:id="addBtn" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" text="Add" />
-            <Button layoutX="76.0" layoutY="51.0" mnemonicParsing="false" text="Delete" />
-            <Button layoutX="140.0" layoutY="51.0" mnemonicParsing="false" text="Update" />
-            <Label layoutX="19.0" layoutY="92.0" prefHeight="17.0" prefWidth="38.0" text="Name" />
-            <TextField layoutX="14.0" layoutY="109.0" prefHeight="25.0" prefWidth="121.0" />
-            <Button layoutX="142.0" layoutY="109.0" mnemonicParsing="false" text="Find" />
-         </children></AnchorPane>
+       <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+       <TabPane fx:id="tabPane" prefHeight="38.0" prefWidth="638.0" tabClosingPolicy="UNAVAILABLE">
+           <tabs>
+               <Tab fx:id="groups_tab" onSelectionChanged="#groupsChange" text="Groups" />
+               <Tab fx:id="products_tab" text="Products">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                   </content>
+               </Tab>
+               <Tab fx:id="stats" onSelectionChanged="#statisticsChanged" text="Statistics" />
+           </tabs>
+       </TabPane>
    </children>
 </AnchorPane>

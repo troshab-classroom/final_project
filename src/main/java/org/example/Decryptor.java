@@ -34,9 +34,7 @@ public class Decryptor implements  Runnable{
     public void run() {
         try {
             packet.getBMsq().setMessage(decrypt(packet.getBMsq().getMessage()));
-            System.out.println(packet.getBPktId()+ ": " + packet.getBMsq());
             queue.put(packet);
-            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

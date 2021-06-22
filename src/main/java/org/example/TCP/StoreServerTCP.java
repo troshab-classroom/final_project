@@ -65,13 +65,11 @@ class StoreServerTCP {
                 try {
                     out = clientSocket.getOutputStream();
                     in = clientSocket.getInputStream();
-                    System.out.println(in.available());
                     while (in.available()>=0) {
                         byte[] b = new byte[Packet.MAX_SIZE];
                         in.read(b);
                         BlockingQueue<Packet> queue = new LinkedBlockingQueue<>(5);
                         Packet p = new Packet(b);
-                        System.out.println(p);
                         if (p.getBSrc() == 0) {
                             out.write(new Packet((byte) 0, UnsignedLong.fromLongBits(7L), new Message(1, 2, "bye")).encodePackage());
                             break;
@@ -82,7 +80,6 @@ class StoreServerTCP {
                         new Thread(r1).start();
                         r1.connect();
                         Packet pac = Sender.queue.take();
-                        System.out.println(pac);
                         out.write(pac.toBytes());
                     }
                     in.close();

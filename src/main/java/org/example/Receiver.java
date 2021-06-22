@@ -13,16 +13,11 @@ public class Receiver implements Runnable, org.example.interfaces.Receiver {
         queueResponse = new LinkedBlockingQueue<>(5);
         //Packet packet = Generator.generate();
         this.queueRequests=queue;
-        this.packet = queue.take();
     }
     @Override
     public void receiveMessage()
     {
-        try {
-            queueRequests.put(packet);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void connect() throws Exception {
@@ -34,13 +29,12 @@ public class Receiver implements Runnable, org.example.interfaces.Receiver {
 
     @Override
     public void run() {
-        try {
-            service6.submit(this::receiveMessage);
-            //receiveMessage();
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            service6.submit(this::receiveMessage);
+//            //receiveMessage();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
     public static void shutdown(){
         try{

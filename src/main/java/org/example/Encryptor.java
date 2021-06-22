@@ -64,7 +64,6 @@ public class Encryptor implements Runnable {
            // packet.getBMsq().setMessage(encrypt(packet.getBMsq().getMessage()));
             packet.encodePackage();
             queue.put(packet);
-            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }

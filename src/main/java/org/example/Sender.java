@@ -24,12 +24,11 @@ public class Sender implements Runnable{
 
     @Override
     public void run() {
-        try {
-            sendMessage();
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            sendMessage();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void shutdown(){
