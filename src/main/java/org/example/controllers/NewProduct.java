@@ -93,7 +93,9 @@ public class NewProduct {
                     Message message = new Message(receivedPacket.getBMsq().getMessage());
                     JSONObject information = new JSONObject(message);
                     try {
+                        System.out.println(information.toString());
                         statusLabel.setText(information.getString("message"));
+                        statusLabel.setText(receivedPacket.getBMsq().getMessage());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

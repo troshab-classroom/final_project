@@ -160,27 +160,16 @@ public class Processor implements Runnable{
                     break;
 
                 case GET_PRODUCTS_STATISTICS:
-//                    daoProduct = new DaoProduct("file.db");
-//                    List<ProductStatistics> productStatistics = daoProduct.getStatisticsList(Integer.parseInt(message));
-//
-//                    if(productStatistics == null){
-//                        reply.putField("Can't show statistics");
-//                    }
-//                    else{
-//                        reply.putObject(ProductStatistics.toJSONObject(productStatistics).toString());
-//                    }
-//                    break;
+                    List<ProductStatistics> productStatistics = CRUDstatements.getStatisticsList(Integer.parseInt(message));
 
-//                case DELETE_ALL_IN_GROUP:
-//                    int id6 = Integer.parseInt(message);
-//                    success = CRUDstatements.deleteAllInGroup(id6);
-//                    if(success == 1){
-//                        reply.putField("Products in group " + id6 + " were deleted");
-//                    }
-//                    else{
-//                        reply.putField("Failed to delete group with products!");
-//                    }
-//                    break;
+                    if(productStatistics == null){
+                        reply.putField("Can't show statistics");
+                    }
+                    else{
+                        reply.putObject(ProductStatistics.toJSONObject(productStatistics).toString());
+                    }
+                    break;
+
 
                 case INSERT_GROUP:
                     information = new JSONObject(message);
