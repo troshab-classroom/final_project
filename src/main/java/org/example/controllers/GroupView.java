@@ -17,12 +17,9 @@ import org.example.entities.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -35,7 +32,6 @@ public class GroupView {
 
     @FXML
     private URL location;
-
 
     @FXML
     private Label statusLabel;
@@ -95,7 +91,7 @@ public class GroupView {
     }
     @FXML
     void updateGroup(ActionEvent event) throws Exception {
-        //statusLabel.setText("");
+        statusLabel.setText("");
 
         Group group = groupsTable.getSelectionModel().getSelectedItem();
 
@@ -163,10 +159,10 @@ public class GroupView {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                //statusLabel.setText("Failed to get groups!");
+                statusLabel.setText("Failed to get groups!");
             }
         } else {
-            //statusLabel.setText("Failed to get groups!");
+            statusLabel.setText("Failed to get groups!");
         }
     }
     @FXML
@@ -236,10 +232,10 @@ public class GroupView {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                //statusLabel.setText("Failed to get groups!");
+                statusLabel.setText("Failed to get groups!");
             }
         } else {
-            //statusLabel.setText("Failed to get groups!");
+            statusLabel.setText("Failed to get groups!");
         }
     }
     @FXML
