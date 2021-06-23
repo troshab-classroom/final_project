@@ -48,15 +48,19 @@ public class ProductListController {
     @FXML
     private TableView<Product> productTable;
     @FXML
-    private TableColumn nameCo;
+    private TableColumn idCol;
     @FXML
-    private TableColumn priceFrom;
+    private TableColumn nameCol;
     @FXML
-    private TableColumn priceTo;
+    private TableColumn priceCol;
     @FXML
-    private TableColumn amountFrom;
+    private TableColumn amountCol;
     @FXML
-    private TableColumn amountTo;
+    private TableColumn manufCol;
+    @FXML
+    private TableColumn descrCol;
+    @FXML
+    private TableColumn groupCol;
     @FXML
     private TextField name;
     @FXML
@@ -171,11 +175,13 @@ public class ProductListController {
     }
     @FXML
     void initialize() throws Exception {
-      //  nameCo.setCellValueFactory(new PropertyValueFactory<>("name"));
-      //  priceFrom.setCellValueFactory(new PropertyValueFactory<>("price_from"));
-       // priceTo.setCellValueFactory(new PropertyValueFactory<>("price_To"));
-       // amountFrom.setCellValueFactory(new PropertyValueFactory<>("amount_from"));
-        //amountTo.setCellValueFactory(new PropertyValueFactory<>("amount_to"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        manufCol.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
+        descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        groupCol.setCellValueFactory(new PropertyValueFactory<>("group_id"));
         resetTable();
     }
     @FXML

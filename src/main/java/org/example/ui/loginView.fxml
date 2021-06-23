@@ -17,10 +17,15 @@
                     <Font size="14.0" />
                 </font></Label>
             <PasswordField fx:id="passwordField" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="256.0" />
-           <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#processLogin" text="Sign In" textAlignment="CENTER">
+           <Button fx:id="signIn" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#processLogin" text="Sign In" textAlignment="CENTER">
                 <font>
                     <Font size="14.0" />
                 </font></Button>
+         <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="149.0" layoutY="163.0" mnemonicParsing="false" onAction="#processLogin" text="Sign Up" textAlignment="CENTER">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Button>
         </children>
     </VBox>
    <Label layoutX="-38.0" layoutY="242.0" text="Label" />

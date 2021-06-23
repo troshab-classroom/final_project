@@ -46,8 +46,9 @@ public class UpdateProductController {
     @FXML
     private ChoiceBox<String> groupChoice;
 
+
     @FXML
-    void createProduct(ActionEvent event) throws Exception {
+       void createProduct(ActionEvent event) throws Exception {
         System.out.println("lollolol");
         if(nameField.getText().isEmpty() || descrField.getText().isEmpty()){
             statusLabel.setText("Fill out all fields before updateProduct.");

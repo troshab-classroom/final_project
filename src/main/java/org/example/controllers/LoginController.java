@@ -119,7 +119,7 @@ public class LoginController {
     }
 
     public static void addingUser(Label statusLabel) throws MalformedURLException {
-        URL url = new File("src/main/java/client_server/client/views/add_user.fxml").toURI().toURL();
+        URL url = new File("src/main/java/client_server/client/views/signUp.fxml").toURI().toURL();
         Parent root = null;
         try {
             root = FXMLLoader.load(url);
