@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.entities.Group;
 import org.example.entities.Product;
+import org.example.entities.ProductStatistics;
 import org.example.entities.User;
 
 import java.sql.*;
@@ -343,7 +344,30 @@ while(resultSet.next()) {
         }
     }
 
+    public static List<ProductStatistics> getStatisticsList(int group_id) {
+        try (final Statement statement = DataBase.connection.createStatement()) {
 
+            final String sql = String.format("select id, name_product, ROUND(price_product, 2) as price_product, amount_store, COALESCE(description,\"\") AS description, " +
+                    "COALESCE(manufacturer,\"\") AS manufacturer, ROUND(price_product * amount_store, 2)as total_cost" +
+                    " from 'product' where product_id_group = %s", group_id);
+            final ResultSet resultSet = statement.executeQuery(sql);
+
+            final List<ProductStatistics> products = new ArrayList<>();
+            while (resultSet.next()) {
+                products.add(new ProductStatistics(resultSet.getInt("id"),
+                        resultSet.getString("name_product"),
+                        resultSet.getDouble("price_product"),
+                        resultSet.getDouble("amount_store"),
+                        resultSet.getString("description"),
+                        resultSet.getString("manufacturer"),
+                        resultSet.getDouble("total_cost")));
+            }
+            return products;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static List<Product> getByCriteria(ProductCriteria criteria){
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group where ");
