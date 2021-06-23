@@ -5,21 +5,41 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.ProductListController">
-   <children>
-       <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
-         <font>
-            <Font size="14.0" />
-         </font></Button>
-       <TabPane fx:id="tabPane" prefHeight="38.0" prefWidth="638.0" tabClosingPolicy="UNAVAILABLE">
-           <tabs>
-               <Tab fx:id="groups_tab" onSelectionChanged="#groupsChange" text="Groups" />
-               <Tab fx:id="products_tab" text="Products">
-                   <content>
-                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                   </content>
-               </Tab>
-               <Tab fx:id="stats" onSelectionChanged="#statisticsChanged" text="Statistics" />
-           </tabs>
-       </TabPane>
-   </children>
+    <children>
+        <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <TabPane prefHeight="38.0" prefWidth="638.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="groups_tab" onSelectionChanged="#groupsChange" text="Groups" />
+                <Tab fx:id="products_tab" text="Products">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                </Tab>
+                <Tab fx:id="stats" onSelectionChanged="#statisticsChanged" text="Statistics" />
+            </tabs>
+        </TabPane>
+        <AnchorPane layoutX="37.0" layoutY="48.0" minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="61.0">
+            <children>
+                <Button fx:id="delete" layoutX="36.0" layoutY="-12.0" mnemonicParsing="false" onAction="#deleteProduct" text="Delete" />
+            </children></AnchorPane>
+        <TableView fx:id="groupsTable" layoutY="115.0" prefHeight="236.0" prefWidth="638.0">
+            <columns>
+                <TableColumn fx:id="nameCo" minWidth="0.0" prefWidth="89.99998986721039" text="Name" />
+                <TableColumn fx:id="priceFrom" prefWidth="103.99999237060547" text="Price From" />
+            <TableColumn fx:id="priceTo" prefWidth="103.99999237060547" text="Price to" />
+            <TableColumn fx:id="amountFrom" prefWidth="103.99999237060547" text="Amount From" />
+            <TableColumn fx:id="desc111" prefWidth="103.99999237060547" text="Amount to" />
+            </columns>
+        </TableView>
+        <Button fx:id="update" layoutX="136.0" layoutY="36.0" mnemonicParsing="false" onAction="#updateProduct" text="Update" />
+        <Button fx:id="create" layoutX="12.0" layoutY="35.0" mnemonicParsing="false" onAction="#createProduct" text="Create" />
+        <Label layoutX="15.0" layoutY="65.0" text="Name" />
+        <TextField fx:id="name" layoutX="14.0" layoutY="82.0" />
+        <Button fx:id="findButton" layoutX="174.0" layoutY="82.0" mnemonicParsing="false" onAction="#find1" text="Find" />
+        <Label fx:id="statusLabel" layoutX="8.0" layoutY="351.0" prefHeight="17.0" prefWidth="452.0" />
+    </children>
 </AnchorPane>

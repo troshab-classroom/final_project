@@ -14,7 +14,7 @@ public class Main extends Application {
     public void start(Stage stage) {
 
         try {
-            URL url = new File("src/main/java/org/example/ui/stats.fxml").toURI().toURL();
+            URL url = new File("src/main/java/org/example/ui/ProductListView.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Scene scene = new Scene(root);
             stage.setScene(scene);

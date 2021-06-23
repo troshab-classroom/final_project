@@ -1,6 +1,8 @@
 package org.example.entities;
 import com.google.common.util.concurrent.AtomicDouble;
 import lombok.Data;
+
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.json.JSONObject;
 @Data
@@ -19,6 +21,34 @@ public class Product {
 //        return (title.equals(t.getTitle()) && price.doubleValue() == t.getPrice().doubleValue()&&manufacturer.equals(t.getManufacturer())
 //                &&description.equals(t.getDescription())&&amount.intValue() == t.getAmount().intValue()&&id_group.intValue() ==t.getId_group().intValue());
 //    }
+
+    public Product(JSONObject product){
+        this.id_product = product.getInt("id");
+        this.title = product.getString("name");
+        this.price=product.getLong("price");
+        this.amount=product.getInt("amount");
+        this.manufacturer=product.getString("manufacturer");
+        this.description = product.getString("description");
+        this.id_group=product.getInt("id_group");
+    }
+
+
+
+
+    public static JSONObject toJSONObject(List<Product> products) {
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append("{\"list\":[");
+
+        for (Product g : products) {
+            stringBuffer.append(g.toJSON().toString() + ", ");
+        }
+        stringBuffer.delete(stringBuffer.length() - 1, stringBuffer.length() - 1);
+        stringBuffer.append("]}");
+
+        return new JSONObject(stringBuffer.toString());
+    }
+
     public JSONObject toJSON(){
 
         JSONObject json = new JSONObject("{"+"\"id\":"+id_product+", \"name\":\""+title+
