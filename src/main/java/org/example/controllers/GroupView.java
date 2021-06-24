@@ -257,4 +257,13 @@ public class GroupView {
         Scene scene = new Scene(root);
         stage.setScene(scene);
     }
+    @FXML
+    private void signOut() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) update.getScene().getWindow();
+        URL url = new File("src/main/java/org/example/ui/loginView.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
 }

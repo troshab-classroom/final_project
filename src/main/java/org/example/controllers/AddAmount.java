@@ -41,6 +41,7 @@ class AddAmountController {
                 Product productToUpdate = new Product(product.getId_product(), product.getTitle(), product.getPrice(), product.getAmount()+amount.intValue(), product.getDescription(), product.getManufacturer(), product.getId_group());
                 UpdateProductController.updateProduct(productToUpdate, statusLabel);
 
+
             }else{
                 statusLabel.setText("Incorrect amount.");
             }

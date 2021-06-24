@@ -19,7 +19,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
-import static org.example.entities.Warehouse.cTypes.GET_LIST_GROUPS;
+import static org.example.entities.Warehouse.cTypes.*;
 import static org.example.entities.Warehouse.cTypes.UPDATE_PRODUCT;
 
 public class UpdateProductController {
@@ -50,13 +50,13 @@ public class UpdateProductController {
     private Label statusLabel;
 
     @FXML
-    private ChoiceBox<Group> groupChoice;
+    private ChoiceBox<Group> group_list;
 
 
     @FXML
     void updateProduct(ActionEvent event) throws Exception {
-        if(nameField.getText().isEmpty() || descrField.getText().isEmpty() || priceField.getText().isEmpty()
-                || amountField.getText().isEmpty() || manufField.getText().isEmpty()){
+        System.out.println("lollolol");
+        if(nameField.getText().isEmpty() || descrField.getText().isEmpty()){
             statusLabel.setText("Fill out all fields before updateProduct.");
         }else{
             Double price = null;
@@ -72,9 +72,43 @@ public class UpdateProductController {
                 statusLabel.setText("Incorrect amount.");
             }
             if(price != null && amount != null && price>=0 && amount>=0) {
+               Product product = new Product(nameField.getText(), price, amount, descrField.getText(), manufField.getText(), group_list.getValue().getId_group());
+            //    Product test = new Product("aaa", 23, 54, "fee", "dcs", 3);
+                Message msg = new Message(UPDATE_PRODUCT.ordinal() , 1, product.toJSON().toString());
+            Packet packet = new Packet((byte) 1, Generator.packetId, msg);
+            Generator.packetId =Generator.packetId.plus(UnsignedLong.valueOf(1));
+            StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
+            //Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+            Thread t1 = new Thread(client1);
+            t1.start();
+            t1.join();
+            System.out.println(packet);
+            packet.encodePackage();
+            System.out.println(packet);
+            Packet receivedPacket = client1.sendMessage(packet);
 
-                Product product = new Product(productID, nameField.getText(), price, amount, descrField.getText(), manufField.getText(), groupChoice.getValue().getId_group());
-                updateProduct(product, statusLabel);
+            int command = receivedPacket.getBMsq().getCType();
+            Warehouse.cTypes[] val = Warehouse.cTypes.values();
+            Warehouse.cTypes command_type = val[command];
+
+            if (command_type == UPDATE_PRODUCT) {
+                String message = receivedPacket.getBMsq().getMessage();
+                JSONObject information = new JSONObject(message);
+                try {
+                    statusLabel.setText(information.getString("message"));
+                    if(information.getString("message").equals("Group successfully updated!"))
+                    {
+                        Stage stage = (Stage) descrField.getScene().getWindow();
+
+                        stage.close();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    statusLabel.setText("Failed to update product!");
+                }
+            } else {
+                statusLabel.setText("Failed to update product!");
+            }
             }else {
                 statusLabel.setText("Price and amount should be positive.");
             }
@@ -126,11 +160,11 @@ public class UpdateProductController {
                     Group group = new Group(array.getJSONObject(i));
                     groups.add(group);
                     if(group.getId_group() == product.getId_group()){
-                        groupChoice.setValue(group);
+                        group_list.setValue(group);
                     }
                 }
 
-                groupChoice.setItems(groups);
+                group_list.setItems(groups);
 
                 System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
@@ -141,8 +175,7 @@ public class UpdateProductController {
     }
 
     static void updateProduct(Product productToUpdate, Label statusLabel) throws Exception {
-        Message msg = new Message(Warehouse.cTypes.UPDATE_PRODUCT.ordinal(), 1, productToUpdate.toJSON().toString());
-
+        Message msg = new Message(GET_LIST_GROUPS.ordinal(), 1, "");
         Packet packet = new Packet((byte) 1, Generator.packetId, msg);
         Generator.packetId =Generator.packetId.plus(UnsignedLong.valueOf(1));
         StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
@@ -157,7 +190,6 @@ public class UpdateProductController {
         int command = receivedPacket.getBMsq().getCType();
         Warehouse.cTypes[] val = Warehouse.cTypes.values();
         Warehouse.cTypes command_type = val[command];
-
         if (command_type == UPDATE_PRODUCT) {
             String message = receivedPacket.getBMsq().getMessage();
             JSONObject information = new JSONObject(message);

@@ -180,8 +180,8 @@ public class ProductListController {
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
         manufCol.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
-        descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-        groupCol.setCellValueFactory(new PropertyValueFactory<>("group_id"));
+       // descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+       // groupCol.setCellValueFactory(new PropertyValueFactory<>("id_group"));
         resetTable();
     }
     @FXML
@@ -254,7 +254,7 @@ public class ProductListController {
     private void groupsChange() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Stage stage = (Stage) update.getScene().getWindow();
-        URL url = new File("src/main/java/org/example/ui/groupView.fxml").toURI().toURL();
+        URL url = new File("src/main/java/org/example/ui/UpdateProductView.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -265,6 +265,15 @@ public class ProductListController {
         FXMLLoader loader = new FXMLLoader();
         Stage stage = (Stage) create.getScene().getWindow();
         URL url = new File("src/main/java/org/example/ui/stats.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    @FXML
+    private void signOut() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) update.getScene().getWindow();
+        URL url = new File("src/main/java/org/example/ui/loginView.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setScene(scene);
