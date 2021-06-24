@@ -9,7 +9,7 @@ import org.example.entities.Product;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddAmountController {
+class AddAmountController {
 
     private Product product;
 
@@ -26,7 +26,7 @@ public class AddAmountController {
     private Label statusLabel;
 
     @FXML
-    void addAmount(ActionEvent event) {
+    void addAmount(ActionEvent event) throws Exception {
         if(amountField.getText().isEmpty()){
             statusLabel.setText("Fill out the field before adding.");
         }else{
@@ -39,7 +39,7 @@ public class AddAmountController {
             if(amount>=0 && amount!=null){
 
                 Product productToUpdate = new Product(product.getId_product(), product.getTitle(), product.getPrice(), product.getAmount()+amount.intValue(), product.getDescription(), product.getManufacturer(), product.getId_group());
-                UpdateProductController.createProduct(productToUpdate, statusLabel);
+                UpdateProductController.updateProduct(productToUpdate, statusLabel);
 
             }else{
                 statusLabel.setText("Incorrect amount.");

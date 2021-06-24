@@ -84,7 +84,8 @@ public class CRUDstatements {
             insertStatement.execute();
             return insertStatement.getGeneratedKeys().getInt("last_insert_rowid()");
         } catch (SQLException e) {
-            throw new RuntimeException("Can't insert user", e);
+            return -1;
+           // throw new RuntimeException("Can't insert user", e);
         }
     }
 

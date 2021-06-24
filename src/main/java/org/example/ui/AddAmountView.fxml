@@ -4,19 +4,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.AddAmount">
+<AnchorPane prefHeight="170.0" prefWidth="186.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.AddAmount">
    <children>
-      <Button fx:id="add_btn" layoutX="264.0" layoutY="220.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="72.0" text="Add ">
+      <Button fx:id="add_btn" layoutX="50.0" layoutY="105.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="72.0" text="Add ">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Label layoutX="272.0" layoutY="141.0" prefHeight="25.0" prefWidth="98.0" text="Amount:">
+      <Label layoutX="50.0" layoutY="34.0" prefHeight="25.0" prefWidth="98.0" text="Amount:">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="amountField" layoutX="251.0" layoutY="166.0" prefHeight="25.0" prefWidth="98.0" />
+      <TextField fx:id="amountField" layoutX="37.0" layoutY="68.0" prefHeight="25.0" prefWidth="98.0" />
    </children>
 </AnchorPane>

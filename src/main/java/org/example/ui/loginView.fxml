@@ -21,13 +21,13 @@
                 <font>
                     <Font size="14.0" />
                 </font></Button>
-         <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="149.0" layoutY="163.0" mnemonicParsing="false" onAction="#processLogin" text="Sign Up" textAlignment="CENTER">
+         <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="149.0" layoutY="163.0" mnemonicParsing="false" onAction="#addUser" text="Sign Up" textAlignment="CENTER">
             <font>
                <Font size="14.0" />
             </font>
          </Button>
+         <Label fx:id="statusLabel" prefHeight="17.0" prefWidth="320.0" />
         </children>
     </VBox>
-   <Label layoutX="-38.0" layoutY="242.0" text="Label" />
 
 </AnchorPane>

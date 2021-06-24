@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import com.google.common.primitives.UnsignedLong;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,10 +46,10 @@ public class LoginController {
     private Label statusLabel;
 
     public void processLogin() throws Exception {
-        //statusLabel.setText("");
+        statusLabel.setText("");
 
         if (loginField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            //statusLabel.setText("Please, enter login and password");
+            statusLabel.setText("Please, enter login and password");
         } else {
             System.out.println(passwordField.getText());
             System.out.println(DigestUtils.md5Hex(passwordField.getText()));
@@ -80,11 +81,11 @@ public class LoginController {
                     loggedIn = true;
                 } catch (JSONException e) {
                     System.out.println(information.getString("message"));
-                    //statusLabel.setText(information.getString("message"));
+                    statusLabel.setText(information.getString("message"));
                 }
 
             } else {
-                //statusLabel.setText("Failed to log in.");
+                statusLabel.setText("Failed to log in.");
             }
 
             if (loggedIn) {
@@ -106,7 +107,7 @@ public class LoginController {
     public static void logOut(Button button) throws MalformedURLException {
         FXMLLoader loader = new FXMLLoader();
         Stage stage = (Stage) button.getScene().getWindow();
-        URL url = new File("src/main/java/client_server/client/views/login_window.fxml").toURI().toURL();
+        URL url = new File("src/main/java/org/example/ui/loginView.fxml").toURI().toURL();
         Parent root = null;
         try {
             root = FXMLLoader.load(url);
@@ -117,9 +118,12 @@ public class LoginController {
         stage.setScene(scene);
 
     }
-
+    @FXML
+    void addUser(ActionEvent event) throws MalformedURLException {
+        addingUser(statusLabel);
+    }
     public static void addingUser(Label statusLabel) throws MalformedURLException {
-        URL url = new File("src/main/java/client_server/client/views/signUp.fxml").toURI().toURL();
+        URL url = new File("src/main/java/org/example/ui/signUp.fxml").toURI().toURL();
         Parent root = null;
         try {
             root = FXMLLoader.load(url);

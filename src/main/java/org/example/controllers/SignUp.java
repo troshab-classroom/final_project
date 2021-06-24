@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.example.TCP.StoreClientTCP;
 import org.example.entities.*;
 import org.json.JSONException;
@@ -39,8 +40,7 @@ public class SignUp {
         if (loginField.getText().isEmpty() || passwordField.getText().isEmpty() ) {
             statusLabel.setText("Fill out all fields before adding.");
         } else {
-
-            User user = new User(loginField.getText(), passwordField.getText());
+            User user = new User(loginField.getText(), passwordField.getText(),"admin");
             Message msg = new Message(ADD_USER.ordinal(), 1, user.toJSON().toString());
 
             Packet packet = new Packet((byte) 1, Generator.packetId, msg);
@@ -62,6 +62,12 @@ public class SignUp {
                 JSONObject information = new JSONObject(message);
                 try {
                     statusLabel.setText(information.getString("message"));
+                    if(information.getString("message").equals("User successfully added!"))
+                    {
+                        Stage stage = (Stage) loginField.getScene().getWindow();
+
+                        stage.close();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

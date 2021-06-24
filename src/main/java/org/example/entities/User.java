@@ -31,8 +31,7 @@ public class User {
     }
 
     public JSONObject toJSON(){
-
-        JSONObject json = new JSONObject("{"+"\"login\":\""+login+"\", \"password\":\""+password+"\"}");
+        JSONObject json = new JSONObject("{"+"\"login\":"+login+", \"password\":\""+password+"\", \"role\":\""+role+"\"}");
         return json;
     }
 
