@@ -46,9 +46,6 @@ public class LoginController {
         if (loginField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             statusLabel.setText("Please, enter login and password");
         } else {
-            System.out.println(passwordField.getText());
-            System.out.println(DigestUtils.md5Hex(passwordField.getText()));
-            System.out.println(DigestUtils.md5Hex("password1"));
             User user = new User(loginField.getText(), DigestUtils.md5Hex(passwordField.getText()));
             Message msg = new Message(LOGIN.ordinal(), 1, user.toJSON().toString());
 

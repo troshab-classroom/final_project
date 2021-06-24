@@ -4,14 +4,10 @@ import org.example.entities.Group;
 import org.example.entities.Product;
 import org.example.entities.ProductStatistics;
 import org.example.entities.User;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CRUDstatements {
     static String product = "product";
@@ -78,40 +74,7 @@ public class CRUDstatements {
                 //throw new RuntimeException("Can't insert group", e);
             }
     }
-    public List<Product> getList(final int page, final int size, final ProductCriteria filter) {
-//        try (final Statement statement = DataBase.connection.createStatement()) {
-//            final String query = Stream.of(
-//                    in("id", filter.getIds()),
-//                    gte("price", filter.getPriceFrom()),
-//                    lte("price", filter.getPriceTill()),
-//                    manufacturer("manufacturer", filter.getManufacturer()),
-//                    group("group_id", filter.getGroup_name())
-//            )
-//                    .filter(Objects::nonNull)
-//                    .collect(Collectors.joining(" AND "));
-//
-//            final String where = query.isEmpty() ? "" : " where " + query;
-//            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount,3) as amount, description, manufacturer, group_id " +
-//                    "from 'products' %s limit %s offset %s", where, size, page * size);
-//            final ResultSet resultSet = statement.executeQuery(sql);
-//
-//            final List<Product> products = new ArrayList<>();
-//            while (resultSet.next()) {
-//                products.add(new Product(resultSet.getInt("id"),
-//                        resultSet.getString("name"),
-//                        resultSet.getDouble("price"),
-//                        resultSet.getInt("amount"),
-//                        resultSet.getString("description"),
-//                        resultSet.getString("manufacturer"),
-//                        resultSet.getInt("group_id")));
-//            }
-//            return products;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-        return null;
-    }
+
     public static int insertUser(User user1)
     {
         String query = "insert into '"+ CRUDstatements.user +"' ('login', 'password', 'role') values ( ?, ?, ?);";
@@ -144,7 +107,7 @@ public class CRUDstatements {
                 final ResultSet result = insertStatement.getGeneratedKeys();
                 return result.getInt("last_insert_rowid()");
             } catch (SQLException e) {
-                return 0;
+                return -1;
             }
     }
     public static Product getProduct(final int id){

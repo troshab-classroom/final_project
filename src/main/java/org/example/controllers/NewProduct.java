@@ -79,9 +79,7 @@ public class NewProduct {
                 Thread t1 = new Thread(client1);
                 t1.start();
                 t1.join();
-                System.out.println(packet);
                 packet.encodePackage();
-                System.out.println(packet);
                 Packet receivedPacket = client1.sendMessage(packet);
 
                 int command = receivedPacket.getBMsq().getCType();
@@ -92,9 +90,7 @@ public class NewProduct {
                     String message = receivedPacket.getBMsq().getMessage();
                     JSONObject information = new JSONObject(message);
                     try {
-                        System.out.println(information.toString());
                         statusLabel.setText(information.getString("message"));
-                        statusLabel.setText(receivedPacket.getBMsq().getMessage());
                         if(information.getString("message").equals("Product successfully added!")) {
                             Stage stage = (Stage) statusLabel.getScene().getWindow();
                             stage.close();

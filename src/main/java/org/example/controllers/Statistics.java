@@ -94,7 +94,6 @@ public class Statistics {
         if (command_type == GET_PRODUCTS_STATISTICS) {
             String message = receivedPacket.getBMsq().getMessage();
             JSONObject information = new JSONObject(message);
-            System.out.println(message);
             try {
                 JSONObject list = information.getJSONObject("object");
                 JSONArray array = list.getJSONArray("list");
@@ -105,7 +104,6 @@ public class Statistics {
                     ProductStatistics productStatistics = new ProductStatistics(array.getJSONObject(i));
                     totalGroupCost += productStatistics.getTotal_cost();
                     products.add(productStatistics);
-                    System.out.println(products.get(products.size()-1));
                 }
                 productsTable.getItems().clear();
                 productsTable.getItems().addAll(products);

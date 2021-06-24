@@ -30,8 +30,6 @@ public class Processor implements Runnable{
 
     @Override
     public void run() {
-       // Packet packet = new Packet(packetFromUser);//decoding packet from USER
-
         Warehouse.cTypes [] val = Warehouse.cTypes.values();
         int command = packet.getBMsq().getCType();
         Warehouse.cTypes command_type = val[command];
@@ -151,7 +149,6 @@ public class Processor implements Runnable{
                         reply.putField("Invalid filters!");
                     }
                     else{
-                        System.out.println(Arrays.toString(products.toArray()));
                         reply.putObject(Product.toJSONObject(products).toString());
                     }
                     break;
@@ -194,7 +191,6 @@ public class Processor implements Runnable{
                     information = new JSONObject(message);
                     Group group1 = new Group( information.getInt("id"),information.getString("name")
                             ,information.getString("description"));
-//                Group getByName = daoGroup.getGroupByName(group1.getName());
                     success = CRUDstatements.updateGroup(group1,group1.getId_group());
                     if(success == -1){
                         reply.putField("Invalid name of group!");
@@ -227,7 +223,6 @@ public class Processor implements Runnable{
                                 res.getString("name_group"),
                                 res.getString("description")));
                     }
-                    System.out.println(Arrays.toString(groups.toArray()));
                     if(groups == null){
                         reply.putField("Failed to get groups!");
                     }
