@@ -46,7 +46,7 @@ public class ProductCriteria {
             gr = "null";
         }
         else{
-            gr = "\""+manufacturer+"\"";
+            gr = "\""+group_name+"\"";
         }
         if(manufacturer == null || manufacturer.isEmpty()){
             manuf = "null";

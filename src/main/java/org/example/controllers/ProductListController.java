@@ -30,7 +30,6 @@ import static org.example.entities.Warehouse.cTypes.*;
 
 
 public class ProductListController {
-    int counter=0;
     @FXML
     private TextField name;
     @FXML
@@ -119,7 +118,7 @@ public class ProductListController {
 
         if (product != null) {
             FXMLLoader loader = new FXMLLoader();
-            URL url = new File("src/main/java/org/example/ui/loginView.fxml").toURI().toURL();
+            URL url = new File("src/main/java/org/example/ui/deductAmount.fxml").toURI().toURL();
             loader.setLocation(url);
             try {
                 loader.load();
@@ -131,8 +130,8 @@ public class ProductListController {
             stage.setScene(new Scene(root));
             stage.setTitle("Deduct amount");
 
-            //DeductAmountController controller = loader.getController();
-            //controller.initData(product);
+            DeductAmountController controller = loader.getController();
+            controller.initData(product);
 
             stage.setOnHiding(new EventHandler<WindowEvent>() {
                 @SneakyThrows
@@ -228,14 +227,6 @@ public class ProductListController {
         groupName.clear();
     }
 
-
-    @FXML
-    void logOut(ActionEvent event) throws MalformedURLException {
-        //LoginWindowController.logOut(deleteProductBtn);
-    }
-
-
-
     @FXML
     void showAllProducts(ActionEvent event) throws Exception {
         statusLabel.setText("");
@@ -252,7 +243,8 @@ public class ProductListController {
         descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         manufCol.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
         groupCol.setCellValueFactory(new PropertyValueFactory<>("id_group"));
-
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(products_tab);
         resetTable();
     }
 
@@ -312,7 +304,7 @@ public class ProductListController {
        Product product = productTable.getSelectionModel().getSelectedItem();
 
         if(product != null) {
-            Message msg = new Message(DELETE_PRODUCT.ordinal(), 1, product.getId_group()+"");
+            Message msg = new Message(DELETE_PRODUCT.ordinal(), 1, product.getId_product()+"");
             Packet packet = new Packet((byte) 1, Generator.packetId, msg);
             Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
@@ -375,61 +367,10 @@ public class ProductListController {
             statusLabel.setText("Choose product to update!");
         }
     }
-//    @FXML
-//    void find1(ActionEvent event) throws Exception {
-//        Message msg = new Message(GET_PRODUCT.ordinal(), 1, name.getText());
-//        Packet packet = new Packet((byte) 1, Generator.packetId, msg);
-//        Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));
-//        StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
-//        Thread t1 = new Thread(client1);
-//        t1.start();
-//        //t1.join();
-//        packet.encodePackage();
-//        Packet receivedPacket = client1.sendMessage(packet);
-//        int command = receivedPacket.getBMsq().getCType();
-//        Warehouse.cTypes[] val = Warehouse.cTypes.values();
-//        Warehouse.cTypes command_type = val[command];
-//
-//        if (command_type == GET_PRODUCT) {
-//            String message = receivedPacket.getBMsq().getMessage();
-//            JSONObject information = new JSONObject(message);
-//
-//            try {
-//                JSONObject list = information.getJSONObject("object");
-//                JSONArray array = list.getJSONArray("list");
-//
-//                List<Product> products = new ArrayList<>();
-//
-//                for (int i = 0; i < array.length(); i++) {
-//                    products.add(new Product(array.getJSONObject(i)));
-//                    System.out.println(products.get(i));
-//                }
-//
-//                productTable.getItems().clear();
-//                productTable.getItems().addAll(products);
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                statusLabel.setText("Failed to get products!");
-//            }
-//        } else {
-//            statusLabel.setText("Failed to get products!");
-//        }
-//    }
-//    @FXML
-//    void initialize() throws Exception {
-//        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-//        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-//        manufCol.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
-//        descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-//        groupCol.setCellValueFactory(new PropertyValueFactory<>("group_id"));
-//        resetTable();
-//    }
+
     @FXML
     void createProduct(ActionEvent event) throws Exception {
-        // statusLabel.setText("");
+         statusLabel.setText("");
 
         URL url = new File("src/main/java/org/example/ui/NewProductView.fxml").toURI().toURL();
         Parent root = null;
@@ -495,12 +436,14 @@ public class ProductListController {
 //    }
     @FXML
     private void groupsChange() throws IOException {
-//        FXMLLoader loader = new FXMLLoader();
-//        Stage stage = (Stage) update.getScene().getWindow();
-//        URL url = new File("src/main/java/org/example/ui/groupView.fxml").toURI().toURL();
-//        Parent root = FXMLLoader.load(url);
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            Stage stage = (Stage) update.getScene().getWindow();
+            URL url = new File("src/main/java/org/example/ui/groupView.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        }catch (Exception e){}
     }
     //statisticsChanged
     @FXML

@@ -1,15 +1,15 @@
 package org.example.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.example.entities.Product;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-class AddAmountController {
+public class DeductAmountController {
 
     private Product product;
 
@@ -26,27 +26,27 @@ class AddAmountController {
     private Label statusLabel;
 
     @FXML
-    void addAmount(ActionEvent event) throws Exception {
+    void deductAmount(ActionEvent event) throws Exception {
         if(amountField.getText().isEmpty()){
-            statusLabel.setText("Fill out the field before adding.");
+            statusLabel.setText("Fill out the field before deducting.");
         }else{
-            Double amount = null;
+            Integer amount = null;
             try{
-                amount = Double.parseDouble(amountField.getText());
+                amount = Integer.parseInt(amountField.getText());
             }catch(NumberFormatException e){
                 statusLabel.setText("Incorrect amount.");
             }
-            if(amount>=0 && amount!=null){
+            if(amount>=0 && amount!=null && amount<=product.getAmount()){
 
-                Product productToUpdate = new Product(product.getId_product(), product.getTitle(), product.getPrice(), product.getAmount()+amount.intValue(), product.getDescription(), product.getManufacturer(), product.getId_group());
-                UpdateProductController.updateProduct(productToUpdate, statusLabel);
-
+                Product productToUpdate = new Product(product.getId_product(), product.getTitle(), product.getPrice(), product.getAmount()-amount, product.getDescription(), product.getManufacturer(), product.getId_group());
+                UpdateProductController.updateProduct1(productToUpdate, statusLabel);
 
             }else{
                 statusLabel.setText("Incorrect amount.");
             }
         }
     }
+
 
     @FXML
     void initialize() {

@@ -270,6 +270,8 @@ while(resultSet.next()) {
     }
     //update statements
     public static int updateProduct(Product product, int id){
+        System.out.println(id);
+        System.out.println(product.toString());
             try (final PreparedStatement preparedStatement =
                          DataBase.connection.prepareStatement("update '"+ CRUDstatements.product +"' set name_product = ?, price_product = ?, amount_store = ?, description = ?, manufacturer = ?, product_id_group = ?  where id = ?")) {
                 preparedStatement.setString(1, product.getTitle());
@@ -282,7 +284,8 @@ while(resultSet.next()) {
                 preparedStatement.executeUpdate();
                 return id;
             } catch (SQLException e) {
-                return 0;
+                e.printStackTrace();
+                return -1;
                 //throw new RuntimeException("Can't update product", e);
             }
     }
@@ -439,7 +442,8 @@ while(resultSet.next()) {
             }
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group where ");
+        sb.append("SELECT id, name_product, price_product, amount_store, " +
+                "product.description FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group where ");
         if(criteria.getTitle()!=null){
             sb.append("name_product like '%").append(criteria.getTitle()).append("%' and ");
         }
@@ -458,13 +462,13 @@ while(resultSet.next()) {
             sb.append("amount_store >= ").append(criteria.getAmountFrom()).append(" and ");
         }
         if(criteria.getGroup_name()!=null){
-            sb.append("name_group like %'").append(getIdGroup(criteria.getGroup_name())).append("%' and ");
+            sb.append("name_group like %'").append(criteria.getGroup_name()).append("%' and ");
         }
         if(criteria.getManufacturer()!=null){
-            sb.append("manufacturer like %'").append(getIdGroup(criteria.getManufacturer())).append("%' and ");
+            sb.append("manufacturer like %'").append(criteria.getManufacturer()).append("%' and ");
         }
         if(criteria.getDescription()!=null){
-            sb.append("description like %'").append(getIdGroup(criteria.getDescription())).append("%' and ");
+            sb.append("product.description like %'").append(criteria.getDescription()).append("%' and ");
         }
         sb.append(" 1=1 ");
         try{
@@ -477,6 +481,7 @@ while(resultSet.next()) {
                         res.getString("description"),res.getString("manufacturer"),
                         res.getInt("product_id_group")));
             }
+            System.out.println(Arrays.toString(products.toArray()));
             return products;
 
         }catch(SQLException e){

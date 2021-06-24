@@ -57,7 +57,7 @@
       <Label layoutX="108.0" layoutY="116.0" prefHeight="17.0" prefWidth="85.0" text="Manufacturer" />
       <Label layoutX="206.0" layoutY="116.0" prefHeight="17.0" prefWidth="85.0" text="Group name" />
       <Label layoutX="303.0" layoutY="116.0" text="Description" />
-      <Button fx:id="deleteProd_btn" layoutX="346.0" layoutY="35.0" mnemonicParsing="false" onAction="#deductAmount" prefHeight="25.0" prefWidth="102.0" text="Deduct product" />
-      <Button fx:id="addProd_btn" layoutX="247.0" layoutY="35.0" mnemonicParsing="false" onAction="#addAmount" prefHeight="25.0" prefWidth="85.0" text="Add product" />
+      <Button fx:id="deleteProd_btn" layoutX="346.0" layoutY="35.0" mnemonicParsing="false" onAction="#deductAmount" prefHeight="25.0" prefWidth="102.0" text="Deduct" />
+      <Button fx:id="addProd_btn" layoutX="247.0" layoutY="35.0" mnemonicParsing="false" onAction="#addAmount" prefHeight="25.0" prefWidth="85.0" text="Add" />
     </children>
 </AnchorPane>
