@@ -64,6 +64,7 @@ public class Statistics {
 
     @FXML
     void showStatistics(ActionEvent event) throws Exception {
+
         resetTable(groupChoice.getValue().getId_group());
     }
 
