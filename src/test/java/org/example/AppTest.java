@@ -276,5 +276,48 @@ public class AppTest
         }
     }
 
+    @Test
+    public void getUserByLoginTest(){
+        DataBase.connect();
+        CRUDstatements.create();
+        User user = new User("login", "password");
+        try{
+            CRUDstatements.insertUser(user);
+        }catch (Exception e){}
+
+        User user1 = CRUDstatements.getUserByLogin(user.getLogin());
+
+        assertEquals(user.getLogin(),user1.getLogin());
+        assertEquals(user.getPassword(),user1.getPassword());
+    }
+    @Test
+    public void checkUnknownUser(){
+        DataBase.connect();
+        CRUDstatements.create();
+        User user = new User("login", "password");
+
+        User user1 = CRUDstatements.getUserByLogin(user.getLogin());
+
+        assertNotEquals(user1,null);
+    }
+
+    @Test
+    public void checkLoginDuplication(){
+        DataBase.connect();
+        CRUDstatements.create();
+        User user = new User("login", "password");
+        CRUDstatements.insertUser(user);
+
+        User user1 = new User("login", "password");
+        int id = CRUDstatements.insertUser(user1);
+
+        assert(id == -1);
+    }
+
+
+
+
+
+
 
 }
