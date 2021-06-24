@@ -64,6 +64,13 @@ public class Statistics {
 
     @FXML
     void showStatistics(ActionEvent event) throws Exception {
+        try{
+            groupChoice.getValue().getId_group();
+        }catch(Exception e)
+        {
+            statusLabel.setText("Choose group");
+            return;
+        }
         resetTable(groupChoice.getValue().getId_group());
     }
 
