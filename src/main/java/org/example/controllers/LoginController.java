@@ -1,5 +1,4 @@
 package org.example.controllers;
-
 import com.google.common.primitives.UnsignedLong;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,10 +23,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static org.example.entities.Warehouse.cTypes.LOGIN;
-//TODO: statusLabel,
-// possibility to see password
-// normal size
-// sign up button
 
 public class LoginController {
     @FXML
@@ -62,7 +57,6 @@ public class LoginController {
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
             Thread t1 = new Thread(client1);
             t1.start();
-            //t1.join();
             packet.encodePackage();
             Packet receivedPacket = client1.sendMessage(packet);
             int command = receivedPacket.getBMsq().getCType();
@@ -77,7 +71,6 @@ public class LoginController {
 
                 try {
                     JSONObject object = information.getJSONObject("object");
-                    //GlobalContext.role = object.getString("role");
                     loggedIn = true;
                 } catch (JSONException e) {
                     System.out.println(information.getString("message"));

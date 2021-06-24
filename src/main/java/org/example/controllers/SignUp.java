@@ -49,7 +49,6 @@ public class SignUp {
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
             Thread t1 = new Thread(client1);
             t1.start();
-            //t1.join();
             packet.encodePackage();
             Packet receivedPacket = client1.sendMessage(packet);
 

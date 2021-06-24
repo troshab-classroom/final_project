@@ -14,9 +14,7 @@ import org.example.entities.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import static org.example.entities.Warehouse.cTypes.*;
@@ -86,10 +84,7 @@ public class UpdateProductController {
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
             Thread t1 = new Thread(client1);
             t1.start();
-            t1.join();
-            System.out.println(packet);
             packet.encodePackage();
-            System.out.println(packet);
             Packet receivedPacket = client1.sendMessage(packet);
 
             int command = receivedPacket.getBMsq().getCType();
@@ -141,10 +136,7 @@ public class UpdateProductController {
         StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
         Thread t1 = new Thread(client1);
         t1.start();
-        t1.join();
-        System.out.println(packet);
         packet.encodePackage();
-        System.out.println(packet);
         Packet receivedPacket = client1.sendMessage(packet);
 
         int command = receivedPacket.getBMsq().getCType();
@@ -168,10 +160,7 @@ public class UpdateProductController {
                         group_list.setValue(group);
                     }
                 }
-
                 group_list.setItems(groups);
-
-                System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
                 statusLabel.setText("Failed to get list of groups!");
