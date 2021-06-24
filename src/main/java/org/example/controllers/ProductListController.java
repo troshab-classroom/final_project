@@ -263,7 +263,6 @@ public class ProductListController {
         StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
         Thread t1 = new Thread(client1);
         t1.start();
-        //t1.join();
         packet.encodePackage();
         Packet receivedPacket = client1.sendMessage(packet);
 
@@ -276,6 +275,7 @@ public class ProductListController {
             String message = receivedPacket.getBMsq().getMessage();
             JSONObject information = new JSONObject(message);
             try {
+                System.out.println(message);
                 JSONObject list = information.getJSONObject("object");
                 JSONArray array = list.getJSONArray("list");
 
@@ -290,7 +290,7 @@ public class ProductListController {
                 productTable.getItems().addAll(products);
 
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 statusLabel.setText("Failed to get list of products!");
             }
 
@@ -310,7 +310,6 @@ public class ProductListController {
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
             Thread t1 = new Thread(client1);
             t1.start();
-            //t1.join();
             packet.encodePackage();
             Packet receivedPacket = client1.sendMessage(packet);
             int command = receivedPacket.getBMsq().getCType();
@@ -321,7 +320,7 @@ public class ProductListController {
                 JSONObject information = new JSONObject(message);
                 try {
                     System.out.println(information.getString("message"));
-                    //statusLabel.setText(information.getString("message"));
+                    statusLabel.setText(information.getString("message"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -393,47 +392,6 @@ public class ProductListController {
 
         stage.show();
     }
-//    private void resetTable() throws Exception {
-//        Message msg = new Message(GET_LIST_PRODUCTS.ordinal(), 1, "");
-//        Packet packet = new Packet((byte) 1, Generator.packetId, msg);
-//        Generator.packetId = Generator.packetId.plus(UnsignedLong.valueOf(1));
-//        StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
-//        //Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
-//        Thread t1 = new Thread(client1);
-//        t1.start();
-//        //t1.join();
-//        packet.encodePackage();
-//        Packet receivedPacket = client1.sendMessage(packet);
-//        int command = receivedPacket.getBMsq().getCType();
-//        Warehouse.cTypes[] val = Warehouse.cTypes.values();
-//        Warehouse.cTypes command_type = val[command];
-//
-//        if (command_type == GET_LIST_PRODUCTS) {
-//            String message = receivedPacket.getBMsq().getMessage();
-//            JSONObject information = new JSONObject(message);
-//
-//            try {
-//                JSONObject list = information.getJSONObject("object");
-//                JSONArray array = list.getJSONArray("list");
-//
-//                List<Product> products = new ArrayList<>();
-//
-//                for (int i = 0; i < array.length(); i++) {
-//                    products.add(new Product(array.getJSONObject(i)));
-//                    System.out.println(products.get(i));
-//                }
-//
-//                productTable.getItems().clear();
-//                productTable.getItems().addAll(products);
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                statusLabel.setText("Failed to get products!");
-//            }
-//        } else {
-//            statusLabel.setText("Failed to get products!");
-//        }
-//    }
     @FXML
     private void groupsChange() throws IOException {
         try {
@@ -445,7 +403,6 @@ public class ProductListController {
             stage.setScene(scene);
         }catch (Exception e){}
     }
-    //statisticsChanged
     @FXML
     private void statisticsChanged() throws IOException {
         FXMLLoader loader = new FXMLLoader();
