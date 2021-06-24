@@ -11,7 +11,7 @@ public class Message {
     private Integer bUserId;
     private String message;
     public static final int BYTES_WITHOUT_MESSAGE = Integer.BYTES + Integer.BYTES;
-    static  int MAX_SIZE_FULL_MESSAGE = BYTES_WITHOUT_MESSAGE + 1000;
+    static  int MAX_SIZE_FULL_MESSAGE = BYTES_WITHOUT_MESSAGE + 5000;
     public Message()
     {}
     public Message(Integer cType, Integer bUserId, String message){

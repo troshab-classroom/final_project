@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="170.0" prefWidth="186.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.AddAmountController">
+<AnchorPane prefHeight="170.0" prefWidth="173.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.AddAmountController">
    <children>
-      <Button fx:id="add_btn" layoutX="50.0" layoutY="105.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="72.0" text="Add ">
+      <Button fx:id="add_btn" layoutX="50.0" layoutY="105.0" mnemonicParsing="false" onAction="#addAmount" prefHeight="33.0" prefWidth="72.0" text="Add ">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
@@ -17,5 +17,6 @@
          </font>
       </Label>
       <TextField fx:id="amountField" layoutX="37.0" layoutY="68.0" prefHeight="25.0" prefWidth="98.0" />
+      <Label fx:id="statusLabel" layoutX="-2.0" layoutY="6.0" prefHeight="17.0" prefWidth="173.0" />
    </children>
 </AnchorPane>

@@ -123,23 +123,16 @@ public class Processor implements Runnable{
 
                 case GET_LIST_PRODUCTS:
                     information = new JSONObject(message);
-                    int page = information.getInt("page");
-                    int size = information.getInt("size");
                     JSONObject filtr = information.getJSONObject("productFilter");
                     ProductCriteria filter = new ProductCriteria();
-                    if(!filtr.isNull("ids")){
-                        JSONArray array = filtr.getJSONArray("ids");
-                        List<Integer> arrayList = new ArrayList<>();
-                        for(int i = 0; i < array.length(); i++){
-                            arrayList.add((Integer)(array.get(i)));
-                        }
-                        //filter.setIds(arrayList);
+                    if(!filtr.isNull("title")){
+                        filter.setTitle(filtr.getString("title"));
                     }
-                    if(!filtr.isNull("group_id")){
-                       // filter.setGroup(filtr.getInt("group_id"));
+                    if(!filtr.isNull("group_name")){
+                        filter.setGroup_name(filtr.getString("group_name"));
                     }
                     if(!filtr.isNull("manufacturer")){
-                        //filter.setManufacturer(filtr.getString("manufacturer"));
+                        filter.setManufacturer(filtr.getString("manufacturer"));
                     }
                     if(!filtr.isNull("toPrice")){
                         filter.setPriceTill(filtr.getDouble("toPrice"));
@@ -147,16 +140,20 @@ public class Processor implements Runnable{
                     if(!filtr.isNull("fromPrice")){
                         filter.setPriceFrom(filtr.getDouble("fromPrice"));
                     }
-                    if(!filtr.isNull("query")){
-                        //filter.setQuery("query");
+                    if(!filtr.isNull("toAmount")){
+                        filter.setPriceTill(filtr.getDouble("toAmount"));
                     }
-//                    List<Product> products = CRUDstatements.getList(page, size, filter);
-//                    if(products == null){
-//                        reply.putField("Invalid filters!");
-//                    }
-//                    else{
-//                       // reply.putObject(Product.toJSONObject(products).toString());
-//                    }
+                    if(!filtr.isNull("fromAmount")){
+                        filter.setPriceFrom(filtr.getDouble("fromAmount"));
+                    }
+                    List<Product> products = CRUDstatements.getByCriteria(filter);
+                    //System.out.println(Arrays.toString(products.toArray()));
+                    if(products == null){
+                        reply.putField("Invalid filters!");
+                    }
+                    else{
+                        reply.putObject(Product.toJSONObject(products).toString());
+                    }
                     break;
 
                 case GET_PRODUCTS_STATISTICS:
@@ -177,7 +174,7 @@ public class Processor implements Runnable{
                             ,information.getString("description"));
                     success = CRUDstatements.insertGroup(group);
                     if(success == -1){
-                        reply.putField("ID and name should be unique!");
+                        reply.putField("Name should be unique!");
                     }
                     else{
                         reply.putField("Group successfully added!");

@@ -72,13 +72,18 @@ public class UpdateProductController {
                 statusLabel.setText("Incorrect amount.");
             }
             if(price != null && amount != null && price>=0 && amount>=0) {
-               Product product = new Product(nameField.getText(), price, amount, descrField.getText(), manufField.getText(), group_list.getValue().getId_group());
-            //    Product test = new Product("aaa", 23, 54, "fee", "dcs", 3);
-                Message msg = new Message(UPDATE_PRODUCT.ordinal() , 1, product.toJSON().toString());
+               Product product = new Product(
+                       productID,
+                       nameField.getText(),
+                       price,
+                       amount,
+                       descrField.getText(),
+                       manufField.getText(),
+                       group_list.getValue().getId_group());
+            Message msg = new Message(UPDATE_PRODUCT.ordinal() , 1, product.toJSON().toString());
             Packet packet = new Packet((byte) 1, Generator.packetId, msg);
             Generator.packetId =Generator.packetId.plus(UnsignedLong.valueOf(1));
             StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
-            //Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
             Thread t1 = new Thread(client1);
             t1.start();
             t1.join();
@@ -121,7 +126,7 @@ public class UpdateProductController {
     }
 
     public void initData(Product product) throws Exception {
-        productID = product.getId_group();
+        productID = product.getId_product();
         nameField.setText(product.getTitle());
         Double price = product.getPrice();
         priceField.setText(price.toString());
@@ -174,17 +179,15 @@ public class UpdateProductController {
         }
     }
 
-    static void updateProduct(Product productToUpdate, Label statusLabel) throws Exception {
-        Message msg = new Message(GET_LIST_GROUPS.ordinal(), 1, "");
+    static void updateProduct1(Product productToUpdate, Label statusLabel) throws Exception {
+        Message msg = new Message(UPDATE_PRODUCT.ordinal(), 1, productToUpdate.toJSON().toString());
         Packet packet = new Packet((byte) 1, Generator.packetId, msg);
         Generator.packetId =Generator.packetId.plus(UnsignedLong.valueOf(1));
         StoreClientTCP client1 = new StoreClientTCP("127.0.0.1", 5555);
         Thread t1 = new Thread(client1);
         t1.start();
         t1.join();
-        System.out.println(packet);
         packet.encodePackage();
-        System.out.println(packet);
         Packet receivedPacket = client1.sendMessage(packet);
 
         int command = receivedPacket.getBMsq().getCType();

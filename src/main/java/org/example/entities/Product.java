@@ -29,7 +29,7 @@ public class Product {
         this.amount=product.getInt("amount");
         this.manufacturer=product.getString("manufacturer");
         this.description = product.getString("description");
-        this.id_group=product.getInt("id_group");
+        this.id_group=product.getInt("group_id");
     }
 
 
@@ -92,8 +92,6 @@ public Product(String title, String man,String desc){
         this.description = des;
         this.manufacturer=man;
         this.id_group=group;
-        this.manufacturer = "";
-        this.description ="";
 
     }
     public Product(final int id, String title, double price, int amount){
