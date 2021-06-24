@@ -149,9 +149,7 @@ public class UpdateProductController {
         Thread t1 = new Thread(client1);
         t1.start();
         t1.join();
-        System.out.println(packet);
         packet.encodePackage();
-        System.out.println(packet);
         Packet receivedPacket = client1.sendMessage(packet);
 
         int command = receivedPacket.getBMsq().getCType();

@@ -77,7 +77,7 @@ public class GroupView {
                 JSONObject information = new JSONObject(message);
                 try {
                     System.out.println(information.getString("message"));
-                    //statusLabel.setText(information.getString("message"));
+                    statusLabel.setText(information.getString("message"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

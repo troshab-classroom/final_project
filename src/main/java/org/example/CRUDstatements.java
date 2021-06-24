@@ -7,7 +7,11 @@ import org.example.entities.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CRUDstatements {
     static String product = "product";
@@ -70,8 +74,43 @@ public class CRUDstatements {
                 insertStatement.execute();
                 return insertStatement.getGeneratedKeys().getInt("last_insert_rowid()");
             } catch (SQLException e) {
-                throw new RuntimeException("Can't insert group", e);
+                return -1;
+                //throw new RuntimeException("Can't insert group", e);
             }
+    }
+    public List<Product> getList(final int page, final int size, final ProductCriteria filter) {
+//        try (final Statement statement = DataBase.connection.createStatement()) {
+//            final String query = Stream.of(
+//                    in("id", filter.getIds()),
+//                    gte("price", filter.getPriceFrom()),
+//                    lte("price", filter.getPriceTill()),
+//                    manufacturer("manufacturer", filter.getManufacturer()),
+//                    group("group_id", filter.getGroup_name())
+//            )
+//                    .filter(Objects::nonNull)
+//                    .collect(Collectors.joining(" AND "));
+//
+//            final String where = query.isEmpty() ? "" : " where " + query;
+//            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount,3) as amount, description, manufacturer, group_id " +
+//                    "from 'products' %s limit %s offset %s", where, size, page * size);
+//            final ResultSet resultSet = statement.executeQuery(sql);
+//
+//            final List<Product> products = new ArrayList<>();
+//            while (resultSet.next()) {
+//                products.add(new Product(resultSet.getInt("id"),
+//                        resultSet.getString("name"),
+//                        resultSet.getDouble("price"),
+//                        resultSet.getInt("amount"),
+//                        resultSet.getString("description"),
+//                        resultSet.getString("manufacturer"),
+//                        resultSet.getInt("group_id")));
+//            }
+//            return products;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+        return null;
     }
     public static int insertUser(User user1)
     {
@@ -370,6 +409,35 @@ while(resultSet.next()) {
         }
     }
     public static List<Product> getByCriteria(ProductCriteria criteria){
+        if(criteria.getTitle()==null&&criteria.getDescription()==null&&criteria.getManufacturer()==null
+                &&criteria.getAmountFrom()==null&&criteria.getAmountTill()==null
+                &&criteria.getPriceTill()==null&&criteria.getPriceFrom()==null&&criteria.getGroup_name()==null) {
+            StringBuilder sb = new StringBuilder("SELECT id, name_product, price_product, amount_store, " +
+                    "product.description AS description, manufacturer, product_id_group FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group");
+            try {
+                Statement st = DataBase.connection.createStatement();
+                ResultSet res = st.executeQuery(sb.toString());
+                List<Product> products = new ArrayList<>();
+                while (res.next()) {
+                    System.out.println(res.getString("description"));
+                    System.out.println(res.getString("manufacturer"));
+                    products.add(new Product(res.getInt("id"),
+                            res.getString("name_product"),
+                            res.getDouble("price_product"),
+                            res.getInt("amount_store"),
+                            res.getString("description"),
+                            res.getString("manufacturer"),
+                            res.getInt("product_id_group")));
+                    System.out.println(products.get(products.size()-1));
+                }
+                System.out.println(Arrays.toString(products.toArray()));
+                return products;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Can't do", e);
+            }
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group where ");
         if(criteria.getTitle()!=null){
@@ -404,12 +472,16 @@ while(resultSet.next()) {
             ResultSet res = st.executeQuery(sb.toString());
             List<Product> products = new ArrayList<>();
             while (res.next()) {
-                products.add(new Product(res.getString("name_product"),res.getDouble("price_product"),res.getInt("amount_store"),res.getInt("product_id_group")));
+                products.add(new Product(res.getInt("id"),res.getString("name_product"),
+                        res.getDouble("price_product"), res.getInt("amount_store"),
+                        res.getString("description"),res.getString("manufacturer"),
+                        res.getInt("product_id_group")));
             }
             return products;
 
         }catch(SQLException e){
-            throw new RuntimeException("Can't do",e);
+            return null;
+           // throw new RuntimeException("Can't do",e);
         }
     }
 

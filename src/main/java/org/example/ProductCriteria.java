@@ -1,6 +1,9 @@
 package org.example;
 
 import lombok.Data;
+import org.json.JSONObject;
+
+import java.util.List;
 
 @Data
 public class ProductCriteria {
@@ -26,5 +29,48 @@ public class ProductCriteria {
 
     public ProductCriteria() {
     }
+    public JSONObject toJSON(){
 
+        String arr;
+        String manuf;
+        String tit;
+        String gr;
+        String des;
+        if(title == null || title.isEmpty()){
+            tit = "null";
+        }
+        else{
+            tit = "\""+title+"\"";
+        }
+        if(group_name == null || group_name.isEmpty()){
+            gr = "null";
+        }
+        else{
+            gr = "\""+manufacturer+"\"";
+        }
+        if(manufacturer == null || manufacturer.isEmpty()){
+            manuf = "null";
+        }
+        else{
+            manuf = "\""+manufacturer+"\"";
+        }
+        if(description == null || description.isEmpty()){
+            des = "null";
+        }
+        else{
+            des = "\""+description+"\"";
+        }
+        System.out.println("{"+"\"title\":"+tit+
+        ", \"fromPrice\":"+ priceFrom+", \"toPrice\":"+priceTill+
+        ", \"fromAmount\":"+ amountFrom+", \"toAmount\":"+amountTill+
+        ", \"description\":"+ des+
+        ", \"manufacturer\":"+ manuf+", \"group_name\":"+ gr+"}");
+
+        JSONObject json = new JSONObject("{"+"\"title\":"+tit+
+                ", \"fromPrice\":"+ priceFrom+", \"toPrice\":"+priceTill+
+                ", \"fromAmount\":"+ amountFrom+", \"toAmount\":"+amountTill+
+                ", \"description\":"+ des+
+                ", \"manufacturer\":"+ manuf+", \"group_name\":"+ gr+"}");
+        return json;
+    }
 }
