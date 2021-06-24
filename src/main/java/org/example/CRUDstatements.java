@@ -422,8 +422,6 @@ while(resultSet.next()) {
                 ResultSet res = st.executeQuery(sb.toString());
                 List<Product> products = new ArrayList<>();
                 while (res.next()) {
-                    System.out.println(res.getString("description"));
-                    System.out.println(res.getString("manufacturer"));
                     products.add(new Product(res.getInt("id"),
                             res.getString("name_product"),
                             res.getDouble("price_product"),
@@ -431,7 +429,6 @@ while(resultSet.next()) {
                             res.getString("description"),
                             res.getString("manufacturer"),
                             res.getInt("product_id_group")));
-                    System.out.println(products.get(products.size()-1));
                 }
                 System.out.println(Arrays.toString(products.toArray()));
                 return products;
@@ -443,7 +440,7 @@ while(resultSet.next()) {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT id, name_product, price_product, amount_store, " +
-                "product.description FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group where ");
+                "product.description, manufacturer, product_id_group FROM product INNER JOIN group_product ON product.product_id_group = group_product.id_group where ");
         if(criteria.getTitle()!=null){
             sb.append("name_product like '%").append(criteria.getTitle()).append("%' and ");
         }
@@ -462,13 +459,13 @@ while(resultSet.next()) {
             sb.append("amount_store >= ").append(criteria.getAmountFrom()).append(" and ");
         }
         if(criteria.getGroup_name()!=null){
-            sb.append("name_group like %'").append(criteria.getGroup_name()).append("%' and ");
+            sb.append("name_group like '%").append(criteria.getGroup_name()).append("%' and ");
         }
         if(criteria.getManufacturer()!=null){
-            sb.append("manufacturer like %'").append(criteria.getManufacturer()).append("%' and ");
+            sb.append("manufacturer like '%").append(criteria.getManufacturer()).append("%' and ");
         }
         if(criteria.getDescription()!=null){
-            sb.append("product.description like %'").append(criteria.getDescription()).append("%' and ");
+            sb.append("product.description like '%").append(criteria.getDescription()).append("%' and ");
         }
         sb.append(" 1=1 ");
         try{
@@ -476,15 +473,19 @@ while(resultSet.next()) {
             ResultSet res = st.executeQuery(sb.toString());
             List<Product> products = new ArrayList<>();
             while (res.next()) {
-                products.add(new Product(res.getInt("id"),res.getString("name_product"),
-                        res.getDouble("price_product"), res.getInt("amount_store"),
-                        res.getString("description"),res.getString("manufacturer"),
+                products.add(new Product(res.getInt("id"),
+                        res.getString("name_product"),
+                        res.getDouble("price_product"),
+                        res.getInt("amount_store"),
+                        res.getString("description"),
+                        res.getString("manufacturer"),
                         res.getInt("product_id_group")));
             }
             System.out.println(Arrays.toString(products.toArray()));
             return products;
 
         }catch(SQLException e){
+            e.printStackTrace();
             return null;
            // throw new RuntimeException("Can't do",e);
         }

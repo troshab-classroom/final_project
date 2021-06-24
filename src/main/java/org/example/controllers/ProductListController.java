@@ -275,6 +275,7 @@ public class ProductListController {
             String message = receivedPacket.getBMsq().getMessage();
             JSONObject information = new JSONObject(message);
             try {
+                System.out.println(message);
                 JSONObject list = information.getJSONObject("object");
                 JSONArray array = list.getJSONArray("list");
 
@@ -289,7 +290,7 @@ public class ProductListController {
                 productTable.getItems().addAll(products);
 
             } catch (JSONException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 statusLabel.setText("Failed to get list of products!");
             }
 

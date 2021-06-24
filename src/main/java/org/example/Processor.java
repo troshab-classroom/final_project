@@ -147,11 +147,11 @@ public class Processor implements Runnable{
                         filter.setPriceFrom(filtr.getDouble("fromAmount"));
                     }
                     List<Product> products = CRUDstatements.getByCriteria(filter);
-                    //System.out.println(Arrays.toString(products.toArray()));
                     if(products == null){
                         reply.putField("Invalid filters!");
                     }
                     else{
+                        System.out.println(Arrays.toString(products.toArray()));
                         reply.putObject(Product.toJSONObject(products).toString());
                     }
                     break;
