@@ -2,11 +2,18 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="163.0" prefWidth="178.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.DeductAmountController">
     <children>
-        <Button fx:id="add_btn" layoutX="50.0" layoutY="105.0" mnemonicParsing="false" onAction="#deductAmount" prefHeight="33.0" prefWidth="72.0" text="Deduct " />
-        <Label layoutX="50.0" layoutY="34.0" prefHeight="25.0" prefWidth="98.0" text="Amount:" />
+        <Button fx:id="add_btn" layoutX="50.0" layoutY="105.0" mnemonicParsing="false" onAction="#deductAmount" prefHeight="33.0" prefWidth="72.0" text="Deduct ">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+        <Label alignment="CENTER" layoutX="37.0" layoutY="31.0" prefHeight="25.0" prefWidth="98.0" text="Amount:">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
         <TextField fx:id="amountField" layoutX="37.0" layoutY="68.0" prefHeight="25.0" prefWidth="98.0" />
       <Label fx:id="statusLabel" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="154.0" />
     </children>

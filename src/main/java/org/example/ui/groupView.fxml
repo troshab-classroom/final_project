@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="385.0" prefWidth="573.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.GroupView">
+<AnchorPane prefHeight="385.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.GroupView">
    <children>
       <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" onAction="#signOut" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
          <font>

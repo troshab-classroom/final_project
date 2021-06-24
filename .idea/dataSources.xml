@@ -13,5 +13,11 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:identifier.sqlite</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="store [2]" uuid="15f50650-4bba-4ae6-bba6-bd72f72eeb1d">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\University\2course\summer\client-server\final_project\store</jdbc-url>
+    </data-source>
   </component>
 </project>
