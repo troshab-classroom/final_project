@@ -9,7 +9,7 @@ import org.example.entities.Product;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-class AddAmountController {
+public class AddAmountController {
 
     private Product product;
 
