@@ -101,7 +101,7 @@ public class UpdateProductController {
                 JSONObject information = new JSONObject(message);
                 try {
                     statusLabel.setText(information.getString("message"));
-                    if(information.getString("message").equals("Group successfully updated!"))
+                    if(information.getString("message").equals("Product successfully updated!"))
                     {
                         Stage stage = (Stage) descrField.getScene().getWindow();
 
@@ -198,6 +198,10 @@ public class UpdateProductController {
             JSONObject information = new JSONObject(message);
             try {
                 statusLabel.setText(information.getString("message"));
+                if(information.getString("message").equals("Product successfully updated!")) {
+                    Stage stage = (Stage) statusLabel.getScene().getWindow();
+                    stage.close();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

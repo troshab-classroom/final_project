@@ -96,6 +96,10 @@ public class NewProduct {
                         System.out.println(information.toString());
                         statusLabel.setText(information.getString("message"));
                         statusLabel.setText(receivedPacket.getBMsq().getMessage());
+                        if(information.getString("message").equals("Product successfully added!")) {
+                            Stage stage = (Stage) statusLabel.getScene().getWindow();
+                            stage.close();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

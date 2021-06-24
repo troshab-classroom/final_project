@@ -172,10 +172,18 @@ public class Statistics {
                     groups.add(new Group(array.getJSONObject(i)));
                 }
                 groupChoice.setItems(groups);
-                System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+    @FXML
+    private void signOut() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) statusLabel.getScene().getWindow();
+        URL url = new File("src/main/java/org/example/ui/loginView.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 }

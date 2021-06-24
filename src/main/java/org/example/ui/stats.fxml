@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="393.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.controllers.Statistics">
    <children>
-      <Button fx:id="sign_out" layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
+      <Button layoutX="543.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: red;" text="Sign out">
          <font>
             <Font size="14.0" />
          </font></Button>
